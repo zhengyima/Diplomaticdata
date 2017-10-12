@@ -45,21 +45,6 @@ for articles in cursor:
                                             rel['value'] += 1
                                             test_graph.push(rel)
                                 es.append(find_node_1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
 cursor = posts.find({"paragraphs.sentences.entities.entity": "中国"})
 #cursor = posts.find({})
