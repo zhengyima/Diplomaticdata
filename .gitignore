@@ -99,3 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# CSV
+CSV/*
+gcc/cmake-build-debug/CSV/*

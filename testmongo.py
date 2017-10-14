@@ -8,16 +8,19 @@ from py2neo import Graph,Node,Relationship
 test_graph = Graph(
     "http://127.0.0.1:7474",
     username="neo4j",
-    password="77777"
+    password="123456"
 )
-test_graph.delete_all()
+#test_graph.delete_all()
 
 conn = MongoClient('127.0.0.1', 27017)
 db = conn.Diplomaticdata
 db.authenticate("Diplomaticer", "77777")
 posts = db.EventNews
 
-cursor =  posts.find({});
+cursor =  posts.find({})
+cnt = 0
+
+
 for articles in cursor:
     es = []
     if len(articles['paragraphs'])>0:
@@ -26,8 +29,13 @@ for articles in cursor:
                 for sentence in paragraph['sentences']:
                     if len(sentence['entities'])>0:
                         for e in sentence['entities']:
-                            #print e['entity'];
-                            find_node_1 = test_graph.find_one('Entity', 'name', e['entity'])
+                            #find_node_1 = test_graph.find_one('Person', 'name', e['entity'])
+                            find_node_1 = test_graph.data("MATCH (s) WHERE ID(s) = {a} RETURN s",a=cnt)
+                            #print find_node_1[0]
+                           # if(e.type == "Person"):
+                             #   cypher.execute("MERGE (n:Person{name:{a}})",a=e['entity'])
+                            #query = neo4j.CypherQuery(graph_db, "CREATE (a) RETURN a")
+                            '''
                             if find_node_1 == None:
                                 find_node_1 = Node("Entity", name=e['entity'])
                                 test_graph.create(find_node_1)
@@ -45,6 +53,9 @@ for articles in cursor:
                                             rel['value'] += 1
                                             test_graph.push(rel)
                                 es.append(find_node_1)
+                            '''
+    print cnt
+    cnt += 1
 '''
 cursor = posts.find({"paragraphs.sentences.entities.entity": "中国"})
 #cursor = posts.find({})
