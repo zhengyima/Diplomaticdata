@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
 from pymongo import MongoClient
 from bson.son import SON
 from py2neo import Graph,Node,Relationship
@@ -8,7 +10,10 @@ test_graph = Graph(
     username="neo4j",
     password="123456"
 )
-print test_graph.data("MATCH (a:Person) RETURN a.name LIMIT 4")
+dat =  test_graph.data("Match (n:Person{name: '习近平'})-[r:CALL]-(end:Person) where r.value > 10 return r.value,n.name,end.name "
+                      "order by r.value desc limit 25")
+for i in dat:
+    print i
 
 
 

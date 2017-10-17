@@ -53,15 +53,20 @@
     $(document).ready(function(){
         $("#btn-commit").click(function(){
             var name = $("#pname").val();
+            snode = {id:-1,label:name};
+            nodes.push(snode);
             $.get("/find_near",{'pname':name}, function(ret){
-                //console.log(ret);
+                console.log(ret);
                 str = '';
                 for(var i in ret){
-                    console.log(ret[i].a.name)
-                    node = {id:i,label:ret[i].a.name};
+                    console.log(ret[i]["end.name"])
+                    node = {id:i,label:ret[i]["end.name"]};
+                    edge = {from:-1,to:parseInt(i,10),value:ret[i]["r.value"],title:ret[i]["r.value"]}
                     nodes.push(node)
-                    str  += ret[i].a.name;
+                    edges.push(edge)
+                    str  += ret[i]["end.name"];
                 }
+                console.log(edges);
                 draw();
                 $("#result").html(str);
             })
