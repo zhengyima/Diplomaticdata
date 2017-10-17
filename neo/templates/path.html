@@ -25,9 +25,10 @@
 
 <body onload="draw()">
 
-    <p>请输入一个人名</p>
-    <form action="/find_near" method="get">姓名：
-        <input type="text" id="pname" name="p"> <br>
+    <p>请输入两个人名</p>
+    <form action="/find_path" method="get"><br>姓名：
+        <input type="text" id="fname" name="p"> <br>姓名：
+        <input type="text" id="tname" name="p"> <br>
 
         <button type="button" id='btn-commit'>提交</button>
     </form>
@@ -58,12 +59,13 @@
             nodes = [];
             edges = [];
             network = [];
-            var name = $("#pname").val();
-            snode = {id:name,label:name};
-            nodes.push(snode);
-            $.get("/find_near",{'pname':name}, function(ret){
+            var fname = $("#fname").val();
+            var tname = $("#tname").val();
+            //snode = {id:name,label:name};
+            //nodes.push(snode);
+            $.get("/find_path",{'fname':fname,'tname':tname}, function(ret){
                 console.log(ret);
-                str = '';
+                /*
                 for(var i in ret){
                     if(ret[i]["end.name"] == name) continue;
                     node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
@@ -77,7 +79,25 @@
                 }
                 console.log(edges);
                 draw();
-                $("#result").html(str);
+                $("#result").html(str);*/
+                str = '<br>';
+                t_nodes = ret[0];
+                t_rels = ret[1];
+                t_paths = ret[2];
+                for(var i in t_nodes){
+                    nodes.push({id:t_nodes[i],label:t_nodes[i]})
+                }
+                for(var i in t_rels){
+                    edges.push({from:t_rels[i]['start_node'],to:t_rels[i]['end_node'],value:t_rels[i]['val'],title:t_rels[i]['val']});
+                }
+                for(var i in t_paths){
+                    for(var j in t_paths[i]['path']){
+                        str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
+                    }
+                    str += tname + '<br>'
+                }
+                $("#result").html(str)
+                draw();
             })
         });
     });
