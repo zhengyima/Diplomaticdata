@@ -16,7 +16,7 @@ import numpy as np
 test_graph = Graph(
     "http://127.0.0.1:7474",
     username="neo4j",
-    password="123456"
+    password="77777"
 )
 
 def f2(a,b):
