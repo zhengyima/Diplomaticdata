@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4b47a8e-3f29-4a7c-b8d9-d11e6e22a053" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neo/neo/urls.py" afterPath="$PROJECT_DIR$/neo/neo/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neo/neo/view.py" afterPath="$PROJECT_DIR$/neo/neo/view.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neo/neo/settings.py" afterPath="$PROJECT_DIR$/neo/neo/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neo/templates/near.html" afterPath="$PROJECT_DIR$/neo/templates/near.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testdata.py" afterPath="$PROJECT_DIR$/testdata.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/neo/templates/path.html" afterPath="$PROJECT_DIR$/neo/templates/path.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,35 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="writeAllRel2CSV.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/writeAllRel2CSV.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="58" column="26" lean-forward="false" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="32" />
-              <folding>
-                <element signature="e#82#113#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="createIndex.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/createIndex.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="testdata.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testdata.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="101">
-              <caret line="137" column="17" lean-forward="true" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+              <caret line="137" column="17" lean-forward="false" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
               <folding>
                 <element signature="e#45#76#0" expanded="true" />
               </folding>
@@ -66,19 +41,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testcreatenode.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testcreatenode.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-185">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="22" />
-              <folding>
-                <element signature="e#46#77#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="view.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="view.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neo/neo/view.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="161">
@@ -90,8 +53,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neo/neo/urls.py">
+      <file leaf-file-name="path.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neo/templates/path.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="78" selection-end-column="3" />
+              <folding>
+                <element signature="n#style#0;n#label#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bootstrap-slider.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neo/neo/static/js/bootstrap-slider.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -100,22 +80,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="path.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/neo/templates/path.html">
+      <file leaf-file-name="slider.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neo/neo/static/css/slider.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="66" column="30" lean-forward="false" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
+            <state relative-caret-position="-1401">
+              <caret line="2" column="2" lean-forward="true" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bootstrap.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neo/neo/static/bootstrap-3.3.7-dist/js/bootstrap.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="124">
+              <caret line="425" column="9" lean-forward="false" selection-start-line="425" selection-start-column="8" selection-end-line="425" selection-end-column="9" />
               <folding>
-                <marker date="1508264872000" expanded="true" signature="1239:3123" ph="{...}" />
-                <marker date="1508264872000" expanded="true" signature="1282:3115" ph="{...}" />
-                <marker date="1508264872000" expanded="true" signature="1596:3104" ph="{...}" />
-                <marker date="1508264872000" expanded="true" signature="3066:3090" ph="/*...*/" />
-                <marker date="1508264872000" expanded="true" signature="3154:3225" ph="//..." />
-                <marker date="1508264872000" expanded="true" signature="3232:3714" ph="/*...*/" />
-                <marker date="1508264872000" expanded="true" signature="3729:3838" ph="//..." />
-                <marker date="1508264872000" expanded="true" signature="3845:4578" ph="/*...*/" />
-                <marker date="1508264872000" expanded="true" signature="4697:4749" ph="{&quot;nodes&quot;: nodes...}" />
+                <element signature="n#!!doc" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="npm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neo/neo/static/bootstrap-3.3.7-dist/js/npm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,9 +115,15 @@
       <file leaf-file-name="near.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neo/templates/near.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="58" column="23" lean-forward="false" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
+            <state relative-caret-position="254">
+              <caret line="53" column="98" lean-forward="false" selection-start-line="53" selection-start-column="98" selection-end-line="53" selection-end-column="98" />
               <folding>
+                <element signature="n#style#0;n#label#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -133,18 +131,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/neo/neo/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-1323">
+              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding>
+                <element signature="e#305#314#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gcc/CMakeLists.txt">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/neo/neo/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -165,6 +165,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>.csv</find>
+      <find>slide</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -188,10 +189,11 @@
         <option value="$PROJECT_DIR$/writeNodes_Count2csv.py" />
         <option value="$PROJECT_DIR$/writeNodes2CSV.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/neo/templates/near.html" />
-        <option value="$PROJECT_DIR$/neo/templates/path.html" />
         <option value="$PROJECT_DIR$/testdata.py" />
         <option value="$PROJECT_DIR$/neo/neo/view.py" />
+        <option value="$PROJECT_DIR$/neo/templates/path.html" />
+        <option value="$PROJECT_DIR$/neo/templates/near.html" />
+        <option value="$PROJECT_DIR$/neo/neo/settings.py" />
       </list>
     </option>
   </component>
@@ -204,7 +206,7 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="728" />
+    <option name="height" value="725" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -255,12 +257,6 @@
               <item name="neo" type="462c0819:PsiDirectoryNode" />
               <item name="neo" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Diplomaticdata" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Diplomaticdata" type="462c0819:PsiDirectoryNode" />
-              <item name="neo" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -272,6 +268,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/lmerengues/codes/Diplomaticdata/writeRecsv.py" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/neo/neo/static/css" />
+      <recent name="$PROJECT_DIR$/neo/neo/static/js" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -407,7 +409,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="725" extended-state="6" />
+    <frame x="0" y="25" width="1280" height="725" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24609375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -442,62 +444,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gcc/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/writeNodes2CSV.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="43" />
-          <folding>
-            <element signature="e#90#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/writeNodes_Article2CSV.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="53" />
-          <folding>
-            <element signature="e#189#220#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/writeNodes_Count2csv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="74" column="32" lean-forward="false" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="32" />
-          <folding>
-            <element signature="e#70#101#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testdata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#45#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testpymongo2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -528,7 +474,7 @@
         <state relative-caret-position="1080">
           <caret line="72" column="32" lean-forward="false" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="32" />
           <folding>
-            <element signature="e#82#113#0" expanded="true" />
+            <element signature="e#82#113#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -554,7 +500,7 @@
         <state relative-caret-position="315">
           <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="43" />
           <folding>
-            <element signature="e#90#121#0" expanded="true" />
+            <element signature="e#90#121#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -564,7 +510,7 @@
         <state relative-caret-position="315">
           <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="53" />
           <folding>
-            <element signature="e#189#220#0" expanded="true" />
+            <element signature="e#189#220#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -626,7 +572,7 @@
         <state relative-caret-position="1020">
           <caret line="72" column="32" lean-forward="false" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="32" />
           <folding>
-            <element signature="e#82#113#0" expanded="true" />
+            <element signature="e#82#113#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -644,7 +590,7 @@
         <state relative-caret-position="255">
           <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="43" />
           <folding>
-            <element signature="e#90#121#0" expanded="true" />
+            <element signature="e#90#121#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -654,7 +600,7 @@
         <state relative-caret-position="255">
           <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="53" />
           <folding>
-            <element signature="e#189#220#0" expanded="true" />
+            <element signature="e#189#220#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -756,7 +702,7 @@
         <state relative-caret-position="255">
           <caret line="21" column="53" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="53" />
           <folding>
-            <element signature="e#189#220#0" expanded="true" />
+            <element signature="e#189#220#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -766,7 +712,7 @@
         <state relative-caret-position="255">
           <caret line="21" column="43" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="43" />
           <folding>
-            <element signature="e#90#121#0" expanded="true" />
+            <element signature="e#90#121#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -792,7 +738,7 @@
         <state relative-caret-position="113">
           <caret line="58" column="26" lean-forward="false" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="32" />
           <folding>
-            <element signature="e#82#113#0" expanded="true" />
+            <element signature="e#82#113#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -817,17 +763,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neo/templates/near.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="58" column="23" lean-forward="false" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/neo/neo/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -836,28 +771,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/neo/templates/path.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="66" column="30" lean-forward="false" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
-          <folding>
-            <marker date="1508264872000" expanded="true" signature="1239:3123" ph="{...}" />
-            <marker date="1508264872000" expanded="true" signature="1282:3115" ph="{...}" />
-            <marker date="1508264872000" expanded="true" signature="1596:3104" ph="{...}" />
-            <marker date="1508264872000" expanded="true" signature="3066:3090" ph="/*...*/" />
-            <marker date="1508264872000" expanded="true" signature="3154:3225" ph="//..." />
-            <marker date="1508264872000" expanded="true" signature="3232:3714" ph="/*...*/" />
-            <marker date="1508264872000" expanded="true" signature="3729:3838" ph="//..." />
-            <marker date="1508264872000" expanded="true" signature="3845:4578" ph="/*...*/" />
-            <marker date="1508264872000" expanded="true" signature="4697:4749" ph="{&quot;nodes&quot;: nodes...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testdata.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
-          <caret line="137" column="17" lean-forward="true" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+          <caret line="137" column="17" lean-forward="false" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
           <folding>
             <element signature="e#45#76#0" expanded="true" />
           </folding>
@@ -870,6 +787,90 @@
           <caret line="34" column="97" lean-forward="false" selection-start-line="34" selection-start-column="97" selection-end-line="34" selection-end-column="97" />
           <folding>
             <element signature="e#64#99#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/static/bootstrap-3.3.7-dist/js/npm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/static/css/slider.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1401">
+          <caret line="2" column="2" lean-forward="true" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/static/bootstrap-3.3.7-dist/js/bootstrap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="425" column="9" lean-forward="false" selection-start-line="425" selection-start-column="8" selection-end-line="425" selection-end-column="9" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/static/js/bootstrap-slider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/templates/path.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="78" selection-end-column="3" />
+          <folding>
+            <element signature="n#style#0;n#label#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/templates/near.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="53" column="98" lean-forward="false" selection-start-line="53" selection-start-column="98" selection-end-line="53" selection-end-column="98" />
+          <folding>
+            <element signature="n#style#0;n#label#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1323">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="e#305#314#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -15,9 +15,15 @@
   </style>
 
   {% load staticfiles %}
-  <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'dist/vis.js' %}"></script>
-  <link href="{% static 'dist/vis-network.min.css' %}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dist/vis.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-slider.js' %}"></script>
+    <link href="{% static 'dist/vis-network.min.css' %}" rel="stylesheet" type="text/css" />
+    <link  href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}" rel="stylesheet">
+    <link  href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}" rel="stylesheet">
+    <link  href="{% static 'css/slider.css' %}" rel="stylesheet">
+
 
 </head>
 
@@ -25,17 +31,37 @@
 
 <body onload="draw()">
 
-    <p>请输入一个人名</p>
-    <form action="/find_near" method="get">姓名：
-        <input type="text" id="pname" name="p"> <br>
+    <label for="pname" style="margin-left:1%;">邻居查询</label>
+    <form action="/find_near" method="get">
+        <div class="form-group" style="width:20%;margin-left:1%;">
+            <label for="pname">姓名：</label>
+            <input type="text" class="form-control" name="htitle" id="pname" name="p">
+            <div class="errormessage"></div>
+        </div>
+        <div class="form-group" style="width:20%;margin-left:1%;">
+             <label for="ex1">最大邻居个数：</label>
+             <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+        </div>
+        <div class="form-group" style="width:50%;margin-left:1%;">
+            <label for="ex1">是否显示邻居间关系：</label>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> 是
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">否
+                </label>
+            </div>
+        </div>
+        <div class="form-group" style="width:20%;margin-left:1%;">
+            <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="提交" id='btn-commit' />
+        </div>
 
-        <button type="button" id='btn-commit'>提交</button>
     </form>
 
-    <p>
-        Scale nodes and edges depending on their value. Hover over edges to get a popup with more information.
-    </p>
-    <div id="mynetwork" style="float:left"></div>
+    <div id="mynetwork" style="float:left;margin-left:1%;"></div>
     <div style="float:left;margin-left:200px;">
         <p>result: <span id='result'></span></p>
     </div>
@@ -54,6 +80,11 @@
     var edges = [];
     var network = null;
     $(document).ready(function(){
+        $('#ex1').slider({
+	        formatter: function(value) {
+		    return 'Current value: ' + value;
+	        }
+        });
         $("#btn-commit").click(function(){
             nodes = [];
             edges = [];
