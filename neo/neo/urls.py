@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^find_near',view.find_near),
     url(r'^path',view.path),
     url(r'^find_path',view.find_path),
+    url('^$',view.near)
 ]
