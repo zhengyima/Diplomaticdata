@@ -32,8 +32,17 @@ def near(request):
 
 def find_near(request):
     a = request.GET['pname']
+
+    maxn = request.GET['maxnear']
+
+
     data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) where r.value > 1 return r.value, "
-                           "n.name,end.name order by r.value desc limit 25",str=a)
+                           "n.name,end.name order by r.value desc limit " +maxn ,str=a)
+    #tdata = []
+    #for i in range(0,maxn):
+    #    tdata[i] = data[i]
+
+    #data = tdata
     '''
     for i in data:
         iname = i['end.name']

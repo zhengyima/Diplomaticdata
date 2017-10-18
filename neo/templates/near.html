@@ -40,18 +40,18 @@
         </div>
         <div class="form-group" style="width:20%;margin-left:1%;">
              <label for="ex1">最大邻居个数：</label>
-             <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+             <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
         </div>
         <div class="form-group" style="width:50%;margin-left:1%;">
             <label for="ex1">是否显示邻居间关系：</label>
             <div class="radio">
                 <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> 是
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">否
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
                 </label>
             </div>
         </div>
@@ -66,6 +66,8 @@
         <p>result: <span id='result'></span></p>
     </div>
 
+    <input type="hidden" id="hid"></input>
+
 
 
 
@@ -79,21 +81,30 @@
     var nodes = [];
     var edges = [];
     var network = null;
+    var maxn = 0;
     $(document).ready(function(){
-        $('#ex1').slider({
+        slide = $('#ex1').slider({
 	        formatter: function(value) {
+	            maxn = value;
+	            console.log(value)
 		    return 'Current value: ' + value;
 	        }
+        });
+        $("#ex1").on("slide", function(slideEvt) {
+	        $("#hid").val(slideEvt.value);
         });
         $("#btn-commit").click(function(){
             nodes = [];
             edges = [];
             network = [];
             var name = $("#pname").val();
-            snode = {id:name,label:name};
+            var maxnear = $("#ex1").val();
+            snode = {id:name,label:name,color:{background:"#ff9966"}};
             nodes.push(snode);
-            $.get("/find_near",{'pname':name}, function(ret){
-                console.log(ret);
+            maxn = $("#hid").val();
+
+            //console.log(maxn);
+            $.get("/find_near",{'pname':name,'maxnear':maxn}, function(ret){
                 str = '';
                 for(var i in ret){
                     if(ret[i]["end.name"] == name) continue;
@@ -106,7 +117,7 @@
                     edges.push(edge)
 
                 }
-                console.log(edges);
+                //console.log(edges);
                 draw();
                 $("#result").html(str);
             })

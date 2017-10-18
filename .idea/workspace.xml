@@ -29,7 +29,11 @@
       <file leaf-file-name="testdata.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testdata.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="210">
+=======
+            <state relative-caret-position="266">
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
               <caret line="19" column="10" lean-forward="false" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
               <folding />
             </state>
@@ -39,8 +43,13 @@
       <file leaf-file-name="view.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neo/neo/view.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="435">
               <caret line="39" column="45" lean-forward="true" selection-start-line="39" selection-start-column="45" selection-end-line="39" selection-end-column="45" />
+=======
+            <state relative-caret-position="1349">
+              <caret line="81" column="60" lean-forward="false" selection-start-line="81" selection-start-column="60" selection-end-line="81" selection-end-column="60" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
               <folding />
             </state>
           </provider>
@@ -49,8 +58,13 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neo/neo/urls.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="225">
               <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+=======
+            <state relative-caret-position="285">
+              <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
               <folding />
             </state>
           </provider>
@@ -111,7 +125,11 @@
       <file leaf-file-name="near.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neo/templates/near.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="2490">
+=======
+            <state relative-caret-position="3154">
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
               <caret line="166" column="23" lean-forward="false" selection-start-line="166" selection-start-column="20" selection-end-line="166" selection-end-column="23" />
               <folding>
                 <element signature="n#style#0;n#label#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -130,8 +148,13 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/neo/neo/settings.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="225">
               <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+=======
+            <state relative-caret-position="-665">
+              <caret line="31" column="12" lean-forward="false" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
               <folding />
             </state>
           </provider>
@@ -180,9 +203,13 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/neo/templates/path.html" />
         <option value="$PROJECT_DIR$/neo/templates/near.html" />
-        <option value="$PROJECT_DIR$/neo/neo/settings.py" />
         <option value="$PROJECT_DIR$/testdata.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/neo/neo/view.py" />
+=======
+        <option value="$PROJECT_DIR$/neo/neo/settings.py" />
+        <option value="$PROJECT_DIR$/neo/neo/urls.py" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
       </list>
     </option>
   </component>
@@ -227,7 +254,10 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+<<<<<<< HEAD
       <pane id="Scratches" />
+=======
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -250,6 +280,10 @@
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
+=======
+      <pane id="Scratches" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -618,7 +652,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="0" y="23" width="1280" height="728" extended-state="6" />
+=======
+    <frame x="0" y="23" width="1280" height="725" extended-state="0" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2453125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -975,7 +1013,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/testdata.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="210">
+=======
+        <state relative-caret-position="266">
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
           <caret line="19" column="10" lean-forward="false" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
           <folding />
         </state>
@@ -983,7 +1025,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neo/templates/near.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="2490">
+=======
+        <state relative-caret-position="3154">
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
           <caret line="166" column="23" lean-forward="false" selection-start-line="166" selection-start-column="20" selection-end-line="166" selection-end-column="23" />
           <folding>
             <element signature="n#style#0;n#label#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1008,16 +1054,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/neo/neo/view.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="435">
           <caret line="39" column="45" lean-forward="true" selection-start-line="39" selection-start-column="45" selection-end-line="39" selection-end-column="45" />
+=======
+        <state relative-caret-position="1349">
+          <caret line="81" column="60" lean-forward="false" selection-start-line="81" selection-start-column="60" selection-end-line="81" selection-end-column="60" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neo/neo/settings.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-665">
+          <caret line="31" column="12" lean-forward="false" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neo/neo/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="225">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+=======
+        <state relative-caret-position="285">
+          <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+>>>>>>> 78089adc3a074f138804147b8d1925d13c56fa41
           <folding />
         </state>
       </provider>

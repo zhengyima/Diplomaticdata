@@ -113,13 +113,31 @@ $('#ex1').slider({
                 t_rels = ret[1];
                 t_paths = ret[2];
                 for(var i in t_nodes){
-                    nodes.push({id:t_nodes[i],label:t_nodes[i]})
+                    console.log(fname);
+                    console.log(t_nodes[i]);
+                    if(fname == t_nodes[i]){
+                        nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#ff9966"}})
+                    }
+                    else if(tname == t_nodes[i]){
+                        nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#33cc66"}})
+                    }
+                    else{
+                        nodes.push({id:t_nodes[i],label:t_nodes[i]})
+                    }
                 }
                 for(var i in t_rels){
-                    edges.push({from:t_rels[i]['start_node'],to:t_rels[i]['end_node'],value:t_rels[i]['val'],title:t_rels[i]['val']});
+                    //edges.push({from:t_rels[i]['start_node'],to:t_rels[i]['end_node'],value:t_rels[i]['val'],title:t_rels[i]['val']});
                 }
+
                 for(var i in t_paths){
                     for(var j in t_paths[i]['path']){
+                        if(i==0){
+                            edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"}});
+                        }
+                        else{
+
+                            edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
+                        }
                         str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                     }
                     str += tname + '<br>'

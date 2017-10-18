@@ -12,9 +12,15 @@ def f2(a,b):
 test_graph = Graph(
     "http://127.0.0.1:7474",
     username="neo4j",
-    password="77777"
+    password="123456"
 )
-data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) where r.value > 1 return r.value",str="习近平")
+a = "习近平"
 
+maxn = int("5")
+
+data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) where r.value > 1 return r.value, "
+                    "n.name,end.name order by r.value desc limit {maxnx}",str=a,maxnx=maxn)
 
 print data
+
+print int("12")
