@@ -102,3 +102,6 @@ ENV/
 # CSV
 CSV/*
 gcc/cmake-build-debug/CSV/*
+
+
+.idea/
