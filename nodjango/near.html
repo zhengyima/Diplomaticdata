@@ -13,6 +13,9 @@
       height: 600px;
       border: 1px solid lightgray;
     }
+    #mytable td{
+        padding:10px 18px
+    }
   </style>
     <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="static/dist/vis.js"></script>
@@ -124,7 +127,7 @@
             console.log(maxn);
             $.get("http://localhost:8000/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
                 //str = '';
-                str = "<h3>搜索结果</h3><table class='table table-striped table-bordered table-hover' style='width:100%' id='mytable'><thead><th>邻居</th></thead><tbody>";
+                str = "<h3>搜索结果</h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
                 //console.log(ret);
                 if(ret.length==0){
                     alert("没有找到这个人的信息，输一个我知道的人吧！");
@@ -136,7 +139,7 @@
                     edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
                     if(ret[i]['n.name'] == name){
                         nodes.push(node)
-                        str += "<tr><td>"+ ret[i]['end.name']+":"+ret[i]['r.value'] + "</td></tr>"
+                        str += "<tr><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
                     }
                     edges.push(edge)
 
@@ -157,9 +160,9 @@
                     "bRetrieve": true,
                     "processing": true,
                     //"serverSide" : true,//服务器端进行分页处理的意思
-                    "bPaginate": true,
+                    //"bPaginate": true,
                     //"bProcessing": true
-                    columns : [{data : "id"},],
+                    columns : [{data : "id"},{data:"value"}],
                 });
             })
         });
