@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>人际关系查询</title>
+
+  <style type="text/css">
+    html, body {
+      font: 10pt arial;
+    }
+    #mynetwork {
+      width: 600px;
+      height: 600px;
+      border: 1px solid lightgray;
+    }
+  </style>
+  {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'dist/vis.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-slider.js' %}"></script>
+    <link href="{% static 'dist/vis-network.min.css' %}" rel="stylesheet" type="text/css" />
+    <link  href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}" rel="stylesheet">
+    <link  href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}" rel="stylesheet">
+    <link  href="{% static 'css/slider.css' %}" rel="stylesheet">
+</head>
+
+<body onload="draw()">
+    <div class="row" style="">
+		<div class="span6">
+			<ul class="nav nav-tabs" style="margin-left:1%;">
+				<li class="active">
+					<a href="#">人际关系查询</a> </li>
+				<li><a href="/path">六度查询</a></li>
+			</ul>
+		</div>
+	</div>
+
+    <hr>
+    <!--label for="pname" style="margin-left:1%;">人际关系查询</label-->
+     <div id="main-container" class="container" style="margin-left: 0;padding-left:0px;">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <form action="/find_near" method="get">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-3">
+                                    <input type="text" class="form-control" name="htitle" id="pname" name="p" placeholder="姓名">
+                                    <div class="errormessage"></div>
+                                </div>
+                                <div class="col-lg-3 col-sm-3">
+                                     <label for="ex1">最大邻居个数：</label>
+                                     <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
+                                </div>
+                                <div class="col-lg-3 col-sm-3">
+                                    <label for="ex1">是否显示邻居间关系：</label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
+
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
+                                </div>
+                                <div class="col-lg-2 col-sm-3">
+                                    <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="查询" id='btn-commit' />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                        <div class="col-md-8 col-sm-12 col-xs-12">
+
+                            <div id="mynetwork" class=""></div>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+         <div class="col-md-4 col-sm-12 col-xs-12" >
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="btn btn-success"></a>
+                    </div>
+                    <div class="panel-body" style="" id="resultbody">
+                        <div id="result">
+                            <h3>搜索结果</h3>
+                        </div>
+                    </div>
+                </div>
+        <!--p>result: <span id='result1'></span></p-->
+        </div>
+     </div>
+
+    <input type="hidden" id="hid" value="14"></input>
+
+<script type="text/javascript">
+
+    var nodes = [];
+    var edges = [];
+    var network = null;
+    var maxn = 14;
+    $(document).ready(function(){
+        slide = $('#ex1').slider({
+	        formatter: function(value) {
+	            maxn = value;
+	            console.log(value)
+		    return 'Current value: ' + value;
+	        }
+        });
+        $("#ex1").on("slide", function(slideEvt) {
+	        $("#hid").val(slideEvt.value);
+        });
+        $("#btn-commit").click(function(){
+            nodes = [];
+            edges = [];
+            network = [];
+            var name = $("#pname").val();
+            var maxnear = $("#ex1").val();
+            snode = {id:name,label:name,color:{background:"#ff9966"}};
+            nodes.push(snode);
+            maxn = $("#hid").val();
+            var mr = 1;
+            if($("#optionsRadios1").is(":checked")){
+                mr = 0
+            }
+
+            console.log(maxn);
+            $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
+                //str = '';
+                str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
+                //console.log(ret);
+                if(ret.length==0){
+                    alert("没有找到这个人的信息，输一个我知道的人吧！");
+                    return ;
+                }
+                for(var i in ret){
+                    if(ret[i]["end.name"] == name) continue;
+                    node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
+                    edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
+                    if(ret[i]['n.name'] == name){
+                        nodes.push(node)
+                        str += "<tr><td>"+ ret[i]['end.name']+":"+ret[i]['r.value'] + "</td></tr>"
+                    }
+                    edges.push(edge)
+
+                }
+                str += "</tbody></table>"
+                console.log(str);
+                //console.log(edges);
+                draw();
+                $("#result").html(str);
+            })
+        });
+    });
+    function draw() {
+      // create people.
+      // value corresponds with the age of the person
+      /*
+      nodes = [
+        {id: 1,  value: 2,  label: 'Algie' },
+        {id: 2,  value: 31, label: 'Alston'},
+        {id: 3,  value: 12, label: 'Barney'},
+        {id: 4,  value: 16, label: 'Coley' },
+        {id: 5,  value: 17, label: 'Grant' },
+        {id: 6,  value: 15, label: 'Langdon'},
+        {id: 7,  value: 6,  label: 'Lee'},
+        {id: 8,  value: 5,  label: 'Merlin'},
+        {id: 9,  value: 30, label: 'Mick'},
+        {id: 10, value: 18, label: 'Tod'},
+      ];*/
+      
+
+      // create connections between people
+      // value corresponds with the amount of contact between two people
+      /*
+      edges = [
+        {from: 2, to: 8, value: 3, title: '3 emails per week'},
+        {from: 2, to: 9, value: 5, title: '5 emails per week'},
+        {from: 2, to: 10,value: 1, title: '1 emails per week'},
+        {from: 4, to: 6, value: 8, title: '8 emails per week'},
+        {from: 5, to: 7, value: 2, title: '2 emails per week'},
+        {from: 4, to: 5, value: 1, title: '1 emails per week'},
+        {from: 9, to: 10,value: 2, title: '2 emails per week'},
+        {from: 2, to: 3, value: 6, title: '6 emails per week'},
+        {from: 3, to: 9, value: 4, title: '4 emails per week'},
+        {from: 5, to: 3, value: 1, title: '1 emails per week'},
+        {from: 2, to: 7, value: 4, title: '4 emails per week'}
+      ];
+*/
+      // Instantiate our network object.
+      var container = document.getElementById('mynetwork');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+        nodes: {
+          shape: 'dot',
+          scaling:{
+            label: {
+              min:8,
+              max:20
+            }
+          }
+        }
+      };
+      network = new vis.Network(container, data, options);
+    }
+  </script>
+</body>
+</html>
