@@ -16,7 +16,7 @@ import numpy as np
 test_graph = Graph(
     "http://127.0.0.1:7474",
     username="neo4j",
-    password="77777"
+    password="123456"
 )
 
 def f2(a,b):
@@ -90,7 +90,12 @@ def find_near(request):
                         # cnt += 1
     # print cnt
 
-    return HttpResponse(json.dumps(data),content_type="application/json")
+    response = HttpResponse(json.dumps(data),content_type="application/json")
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
 
 def path(request):
     return render(request,'path.html')
@@ -129,5 +134,10 @@ def find_path(request):
         paths.append({'path': this_path, 'val': np.sum(this_path_values)})
     paths.sort(cmp=f2)
 
-    return HttpResponse(json.dumps([nodes_total,rels_total,paths]), content_type="application/json")
+    response = HttpResponse(json.dumps([nodes_total,rels_total,paths]), content_type="application/json")
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
 
