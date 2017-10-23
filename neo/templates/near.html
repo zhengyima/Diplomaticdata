@@ -34,8 +34,10 @@
 			</ul>
 		</div>
 	</div>
+
+    <hr>
     <!--label for="pname" style="margin-left:1%;">人际关系查询</label-->
-     <div id="main-container" class="container" style="margin-left: 0;">
+     <div id="main-container" class="container" style="margin-left: 0;padding-left:0px;">
         <div class="col-md-8 col-sm-12 col-xs-12">
             <div class="panel panel-default">
                     <div class="panel-heading">
@@ -56,7 +58,7 @@
                                         <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
                                 </div>
                                 <div class="col-lg-2 col-sm-3">
-                                    <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="提交" id='btn-commit' />
+                                    <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="查询" id='btn-commit' />
                                 </div>
                             </div>
                         </form>
@@ -123,7 +125,7 @@
             console.log(maxn);
             $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
                 //str = '';
-                str = "<h3>搜索果</h3><table class='table table-striped' style='width:100%'><tbody>";
+                str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
                 //console.log(ret);
                 if(ret.length==0){
                     alert("没有找到这个人的信息，输一个我知道的人吧！");
