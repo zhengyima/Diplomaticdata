@@ -3,7 +3,7 @@
 <head>
   <title>人际关系查询</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style type="text/css">
     html, body {
       font: 10pt arial;
@@ -81,7 +81,7 @@
                         </div>
                         <div class="panel-body" style="" id="resultbody">
                             <div id="result">
-                                <h3>搜索结果</h3>
+                                <h3><span id="resulttitle">的人际关系</span></h3>
                             </div>
                         </div>
                     </div>
@@ -115,6 +115,7 @@
             edges = [];
             network = [];
             var name = $("#pname").val();
+            $("#resulttitle").html(name+"的人际关系")
             var maxnear = $("#ex1").val();
             snode = {id:name,label:name,color:{background:"#ff9966"}};
             nodes.push(snode);
@@ -127,7 +128,7 @@
             console.log(maxn);
             $.get("http://localhost:8000/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
                 //str = '';
-                str = "<h3>搜索结果</h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
+                str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
                 //console.log(ret);
                 if(ret.length==0){
                     alert("没有找到这个人的信息，输一个我知道的人吧！");
@@ -149,6 +150,7 @@
                 //console.log(edges);
                 draw();
                 $("#result").html(str);
+                $("#resulttitle").html(name+"的人际关系")
                 $('#mytable').DataTable({
                     "paging": true,
                     "iDisplayLength": 12, //默认每页数量

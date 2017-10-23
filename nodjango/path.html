@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>六度搜索</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
     <style type="text/css">
         html, body {
             font: 10pt arial;
@@ -17,10 +18,12 @@
     <script type="text/javascript" src="static/dist/vis.js"></script>
     <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
+    <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
     <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
     <link  href="static/css/slider.css" rel="stylesheet">
+    <link  href="static/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 
 <body onload="draw()">
@@ -55,7 +58,7 @@
                         </form>
                     </div>
                     <div class="panel-body">
-                        <div id="mynetwork" style=""></div>
+                        <div id="mynetwork" style="width:100%;"></div>
                     </div>
                 </div>
             </div>
@@ -66,7 +69,7 @@
                     </div>
                     <div class="panel-body" style="" id="resultbody">
                         <div id="result">
-                            <h3>搜索结果</h3>
+                            <h3><span id="resulttitle">搜索结果</span></h3>
                         </div>
                     </div>
                 </div>
@@ -106,9 +109,10 @@
                 network = [];
                 var fname = $("#fname").val();
                 var tname = $("#tname").val();
+                $("#resulttitle").html(fname+"到"+tname+"的路径查询")
                 $.get("http://localhost:8000/find_path",{'fname':fname,'tname':tname}, function(ret){
                     console.log(ret);
-                    str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
+                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th></thead><tbody>";
                     t_nodes = ret[0];
                     t_rels = ret[1];
                     t_paths = ret[2];
@@ -146,7 +150,23 @@
                         str += "<tr><td>"+path+"</td></tr>"
                     }
                     str+='</tbody></table>'
-                    $("#result").html(str)
+                    $("#result").html(str);
+                    $("#resulttitle").html(fname+"到"+tname+"的路径查询")
+                    $('#mytable').DataTable({
+                    "paging": true,
+                    "iDisplayLength": 8, //默认每页数量
+                    "bPaginate": true, //翻页功能
+                    "bLengthChange": false, //改变每页显示数据数量
+                    "bFilter": false, //过滤功能
+                    "bInfo": true, //页脚信息
+                    "bAutoWidth": true, //自动宽度
+                    "bRetrieve": true,
+                    "processing": true,
+                    //"serverSide" : true,//服务器端进行分页处理的意思
+                    //"bPaginate": true,
+                    //"bProcessing": true
+                    columns : [{data : "id"}],
+                });
                     draw();
                 })
             });
