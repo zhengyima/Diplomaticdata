@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>人际关系查询</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
   <style type="text/css">
     html, body {
@@ -17,10 +18,12 @@
     <script type="text/javascript" src="static/dist/vis.js"></script>
     <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
-    <link href="static/dist/vis-network.min.css/" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
+    <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
     <link  href="static/css/slider.css" rel="stylesheet">
+    <link  href="static/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 
 <body onload="draw()">
@@ -29,7 +32,7 @@
 			<ul class="nav nav-tabs" style="margin-left:1%;">
 				<li class="active">
 					<a href="#">人际关系查询</a> </li>
-				<li><a href="/path">六度查询</a></li>
+				<li><a href="path.html?id=扎克伯格&卡扎菲">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
@@ -37,54 +40,50 @@
     <hr>
     <!--label for="pname" style="margin-left:1%;">人际关系查询</label-->
      <div id="main-container" class="container" style="margin-left: 0;padding-left:0px;">
-        <div class="col-md-8 col-sm-12 col-xs-12">
-            <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <form action="/find_near" method="get">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-3">
-                                    <input type="text" class="form-control" name="htitle" id="pname" name="p" placeholder="姓名">
-                                    <div class="errormessage"></div>
-                                </div>
-                                <div class="col-lg-3 col-sm-3">
-                                     <label for="ex1">最大邻居个数：</label>
-                                     <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
-                                </div>
-                                <div class="col-lg-3 col-sm-3">
-                                    <label for="ex1">是否显示邻居间关系：</label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
-
-                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
-                                </div>
-                                <div class="col-lg-2 col-sm-3">
-                                    <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="查询" id='btn-commit' />
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-
-                        <div class="col-md-8 col-sm-12 col-xs-12">
-
-                            <div id="mynetwork" class=""></div>
-                        </div>
-                        </div>
-                    </div>
-            </div>
-        </div>
-         <div class="col-md-4 col-sm-12 col-xs-12" >
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a class="btn btn-success"></a>
-                    </div>
-                    <div class="panel-body" style="" id="resultbody">
-                        <div id="result">
-                            <h3>搜索结果</h3>
+                        <div class="panel-heading">
+                            <form action="/find_near" method="get">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-3">
+                                        <input type="text" class="form-control" name="htitle" id="pname" name="p" placeholder="姓名">
+                                        <div class="errormessage"></div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-3">
+                                        <label for="ex1">最大邻居个数：</label>
+                                        <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-3">
+                                        <label for="ex1">是否显示邻居间关系：</label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
+
+                                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
+                                    </div>
+                                    <div class="col-lg-2 col-sm-3">
+                                        <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="查询" id='btn-commit' />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-body">
+                            <div id="mynetwork" class="center-block" style="width:100%"></div>
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12" >
+                    <div class="panel panel-default" style="">
+                        <div class="panel-heading">
+                            <a class="btn btn-success"></a>
+                        </div>
+                        <div class="panel-body" style="" id="resultbody">
+                            <div id="result">
+                                <h3>搜索结果</h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-        <!--p>result: <span id='result1'></span></p-->
+            <!--p>result: <span id='result1'></span></p-->
+            </div>
         </div>
      </div>
 
@@ -108,6 +107,7 @@
 	        $("#hid").val(slideEvt.value);
         });
         $("#btn-commit").click(function(){
+            console.log("click");
             nodes = [];
             edges = [];
             network = [];
@@ -124,7 +124,7 @@
             console.log(maxn);
             $.get("http://localhost:8000/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
                 //str = '';
-                str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
+                str = "<h3>搜索结果</h3><table class='table table-striped table-bordered table-hover' style='width:100%' id='mytable'><thead><th>邻居</th></thead><tbody>";
                 //console.log(ret);
                 if(ret.length==0){
                     alert("没有找到这个人的信息，输一个我知道的人吧！");
@@ -146,8 +146,34 @@
                 //console.log(edges);
                 draw();
                 $("#result").html(str);
+                $('#mytable').DataTable({
+                    "paging": true,
+                    "iDisplayLength": 12, //默认每页数量
+                    "bPaginate": true, //翻页功能
+                    "bLengthChange": false, //改变每页显示数据数量
+                    "bFilter": false, //过滤功能
+                    "bInfo": true, //页脚信息
+                    "bAutoWidth": true, //自动宽度
+                    "bRetrieve": true,
+                    "processing": true,
+                    //"serverSide" : true,//服务器端进行分页处理的意思
+                    "bPaginate": true,
+                    //"bProcessing": true
+                    columns : [{data : "id"},],
+                });
             })
         });
+
+        if(window.location.href.split("=").length>1){
+            id = window.location.href.split("=")[1];
+            console.log(id);
+            $("#pname").val(decodeURI(id));
+            $('#btn-commit').trigger("click");
+        }
+        else{
+            $("#pname").val("李克强");
+            $('#btn-commit').trigger("click");
+        }
     });
     function draw() {
       // create people.

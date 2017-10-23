@@ -1,193 +1,178 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>六度搜索</title>
+    <title>六度搜索</title>
 
-  <style type="text/css">
-    html, body {
-      font: 10pt arial;
-    }
-    #mynetwork {
-      width: 600px;
-      height: 600px;
-      border: 1px solid lightgray;
-    }
-  </style>
-
+    <style type="text/css">
+        html, body {
+            font: 10pt arial;
+        }
+        #mynetwork {
+            width: 600px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
     <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="static/dist/vis.js"></script>
     <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
-    <link href="static/dist/vis-network.min.css/" rel="stylesheet" type="text/css" />
+    <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
     <link  href="static/css/slider.css" rel="stylesheet">
-
 </head>
-
-
 
 <body onload="draw()">
     <div class="row">
 		<div class="span6">
 			<ul class="nav nav-tabs" style="margin-left:1%;">
-				<li><a href="/near">人际关系查询</a> </li>
+				<li><a href="near.html?name=李克强">人际关系查询</a> </li>
 				<li class="active"><a href="#">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
     <hr>
     <div id="main-container" class="container" style="margin-left: 0;margin-top:0;padding-left:0">
-        <div class="col-md-8 col-sm-12 col-xs-12">
-            <div class="panel panel-default">
-                    <div class="panel-heading">
-                    <form action="/find_path" method="get"><br>
-                        <div class="row">
-
-                            <div class="col-lg-2 col-sm-3">
-
-                                <input type="text" class="form-control" name="htitle" id="fname" name="p" placeholder="姓名1">
-                                <div class="errormessage"></div>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                        <form action="/find_path" method="get"><br>
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-3">
+                                    <input type="text" class="form-control" name="htitle" id="fname" name="p" placeholder="姓名1">
+                                    <div class="errormessage"></div>
+                                </div>
+                                <div class="col-lg-2 col-sm-3">
+                                    <input type="text" class="form-control" name="htitle" id="tname" name="p" placeholder="姓名2">
+                                    <div class="errormessage"></div>
+                                </div>
+                                <div class="col-lg-2 col-sm-3">
+                                    <input type="button" class="btn btn-default" style="" name="Submit" value="查询" id='btn-commit' />
+                                </div>
                             </div>
-                            <div class="col-lg-2 col-sm-3">
-                                <input type="text" class="form-control" name="htitle" id="tname" name="p" placeholder="姓名2">
-                                <div class="errormessage"></div>
-                            </div>
-                            <div class="col-lg-2 col-sm-3">
-                                <input type="button" class="btn btn-default" style="" name="Submit" value="查询" id='btn-commit' />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="panel-body">
-                    <div id="mynetwork" style=""></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-4 col-sm-12 col-xs-12" >
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a class="btn btn-success"></a>
-                </div>
-                <div class="panel-body" style="" id="resultbody">
-                    <div id="result">
-                        <h3>搜索结果</h3>
-
+                        </form>
+                    </div>
+                    <div class="panel-body">
+                        <div id="mynetwork" style=""></div>
                     </div>
                 </div>
             </div>
-            <!--p>result: <span id='result1'></span></p-->
+            <div class="col-md-4 col-sm-12 col-xs-12" >
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="btn btn-success"></a>
+                    </div>
+                    <div class="panel-body" style="" id="resultbody">
+                        <div id="result">
+                            <h3>搜索结果</h3>
+                        </div>
+                    </div>
+                </div>
+                <!--p>result: <span id='result1'></span></p-->
+            </div>
         </div>
-
     </div>
 
+    <script type="text/javascript">
+        // Instantiate a slider
+        var mySlider = $("input.slider").slider();
 
+        // Call a method on the slider
+        var value = mySlider.slider('getValue');
 
+        // For non-getter methods, you can chain together commands
+        mySlider
+            .slider('setValue', 5)
+            .slider('setValue', 7);
+        // With JQuery
+        $('#ex1').slider({
+	        formatter: function(value) {
+		    return 'Current value: ' + value;
+	        }
+        });
 
-
-
-
-
-<script type="text/javascript">
-      // Instantiate a slider
-var mySlider = $("input.slider").slider();
-
-// Call a method on the slider
-var value = mySlider.slider('getValue');
-
-// For non-getter methods, you can chain together commands
-    mySlider
-        .slider('setValue', 5)
-        .slider('setValue', 7);
-
-    // With JQuery
-$('#ex1').slider({
-	formatter: function(value) {
-		return 'Current value: ' + value;
-	}
-});
-
-    var nodes = [];
-    var edges = [];
-    var network = null;
-    // Horizontal slider
-    $(document).ready(function(){
-        //$("#resultbody").height($(window).height());
-        $("#btn-commit").click(function(){
-            nodes = [];
-            edges = [];
-            network = [];
-            var fname = $("#fname").val();
-            var tname = $("#tname").val();
-            //snode = {id:name,label:name};
-            //nodes.push(snode);
-            $.get("http://localhost:8000/find_path",{'fname':fname,'tname':tname}, function(ret){
-                console.log(ret);
-                /*
-                for(var i in ret){
-                    if(ret[i]["end.name"] == name) continue;
-                    node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
-                    edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
-                    if(ret[i]['n.name'] == name){
-                        nodes.push(node)
-                        str += "</br>"+ ret[i]['end.name']+":"+ret[i]['r.value']
+        var nodes = [];
+        var edges = [];
+        var network = null;
+        // Horizontal slider
+        $(document).ready(function(){
+            //$("#resultbody").height($(window).height());
+            $("#btn-commit").click(function(){
+                console.log("click");
+                nodes = [];
+                edges = [];
+                network = [];
+                var fname = $("#fname").val();
+                var tname = $("#tname").val();
+                $.get("http://localhost:8000/find_path",{'fname':fname,'tname':tname}, function(ret){
+                    console.log(ret);
+                    str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
+                    t_nodes = ret[0];
+                    t_rels = ret[1];
+                    t_paths = ret[2];
+                    if(t_paths.length==0){
+                        alert("没找到这条联系哟，是不是输错名字了？");
+                        return ;
                     }
-                    edges.push(edge)
-
-                }
-                console.log(edges);
-                draw();
-                $("#result").html(str);*/
-                //
-                str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
-                t_nodes = ret[0];
-                t_rels = ret[1];
-                t_paths = ret[2];
-                if(t_paths.length==0){
-                    alert("没找到这条联系哟，是不是输错名字了？");
-                    return ;
-                }
-                for(var i in t_nodes){
-                    console.log(fname);
-                    console.log(t_nodes[i]);
-                    if(fname == t_nodes[i]){
-                        nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#ff9966"}})
-                    }
-                    else if(tname == t_nodes[i]){
-                        nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#33cc66"}})
-                    }
-                    else{
-                        nodes.push({id:t_nodes[i],label:t_nodes[i]})
-                    }
-                }
-                for(var i in t_rels){
-                    //edges.push({from:t_rels[i]['start_node'],to:t_rels[i]['end_node'],value:t_rels[i]['val'],title:t_rels[i]['val']});
-                }
-
-                for(var i in t_paths){
-                    path = ""
-                    for(var j in t_paths[i]['path']){
-                        if(i==0){
-                            edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"}});
+                    for(var i in t_nodes){
+                        console.log(fname);
+                        console.log(t_nodes[i]);
+                        if(fname == t_nodes[i]){
+                            nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#ff9966"}})
+                        }
+                        else if(tname == t_nodes[i]){
+                            nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#33cc66"}})
                         }
                         else{
-
-                            edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
+                            nodes.push({id:t_nodes[i],label:t_nodes[i]})
                         }
-                        //str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
-                        path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                     }
-                    path += tname
-                    str += "<tr><td>"+path+"</td></tr>"
+                    for(var i in t_paths){
+                        path = ""
+                        for(var j in t_paths[i]['path']){
+                            if(i==0){
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"}});
+                            }
+                            else{
+
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
+                            }
+                            //str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
+                            path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
+                        }
+                        path += tname
+                        str += "<tr><td>"+path+"</td></tr>"
+                    }
+                    str+='</tbody></table>'
+                    $("#result").html(str)
+                    draw();
+                })
+            });
+            if(window.location.href.split("=").length>1){
+                ids = window.location.href.split("=")[1];
+                console.log(ids);
+                ids = decodeURI(ids);
+                console.log(ids);
+                if(ids.split("&").length>1){
+                    //console.log(ids.split("&")[0]);
+                    //console.log(ids.split("&")[1])
+                    $("#fname").val(decodeURI(ids.split("&")[0]));
+                    $("#tname").val(decodeURI(ids.split("&")[1]));
+                    $('#btn-commit').trigger("click");
                 }
-                str+='</tbody></table>'
-                $("#result").html(str)
-                draw();
-            })
-        });
+                else{
+                    $("#fname").val("扎克伯格");
+                    $("#tname").val("卡扎菲");
+                    $('#btn-commit').trigger("click");
+                }
+            }
+            else{
+                $("#fname").val("扎克伯格");
+                $("#tname").val("卡扎菲");
+                $('#btn-commit').trigger("click");
+            }
     });
     function draw() {
       // create people.
