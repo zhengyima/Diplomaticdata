@@ -16,7 +16,7 @@ import numpy as np
 test_graph = Graph(
     "http://127.0.0.1:7474",
     username="neo4j",
-    password="123456"
+    password="77777"
 )
 
 def f2(a,b):
@@ -36,8 +36,10 @@ def find_near(request):
     maxn = request.GET['maxnear']
 
 
-    data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) where r.value > 1 return r.value, "
+    data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) return r.value, "
                            "n.name,end.name order by r.value desc limit " +maxn ,str=a)
+    if(request.GET['mr'] == "1"):
+        return HttpResponse(json.dumps(data), content_type="application/json")
     #tdata = []
     #for i in range(0,maxn):
     #    tdata[i] = data[i]

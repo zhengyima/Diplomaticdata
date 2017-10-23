@@ -2,7 +2,8 @@
 
 from django.conf.urls import url
 from . import view,search,search2,addc
- 
+
+app_name = 'neo'
 urlpatterns = [
     url(r'^hello$', view.hello),
     url(r'^search-form$', search.search_form),
@@ -14,5 +15,5 @@ urlpatterns = [
     url(r'^find_near',view.find_near),
     url(r'^path',view.path),
     url(r'^find_path',view.find_path),
-    url('^$',view.near)
+    url(r'^$',view.near)
 ]

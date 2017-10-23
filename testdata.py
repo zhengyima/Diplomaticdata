@@ -14,9 +14,8 @@ test_graph = Graph(
     username="neo4j",
     password="123456"
 )
-a = "丁磊"
-
-maxn = "25"
+a = '丁磊'
+maxn = request.GET['maxnear']
 
 data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) where r.value > 1 return r.value, "
                        "n.name,end.name order by r.value desc limit " + maxn, str=a)
@@ -70,4 +69,3 @@ for i in range(0, len(data)):
                     # cnt += 1
 # print cnt
 
-print data

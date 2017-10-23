@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Network | Sizing</title>
+  <title>六度搜索</title>
 
   <style type="text/css">
     html, body {
@@ -29,28 +29,61 @@
 
 
 <body onload="draw()">
-    <form action="/find_path" method="get"><br>
-        <label for="fname" style="margin-left:1%;">最短路径查询：</label>
-        <div class="form-group" style="width:20%;margin-left:1%;">
-            <label for="fname">姓名：</label>
-            <input type="text" class="form-control" name="htitle" id="fname" name="p">
-            <div class="errormessage"></div>
-        </div>
-        <div class="form-group" style="width:20%;margin-left:1%;">
-            <label for="tname">姓名：</label>
-            <input type="text" class="form-control" name="htitle" id="tname" name="p">
-            <div class="errormessage"></div>
-        </div>
-        <div class="form-group" style="width:20%;margin-left:1%;">
-            <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="提交" id='btn-commit' />
-        </div>
-    </form>
+    <div class="row">
+		<div class="span6">
+			<ul class="nav nav-tabs" style="margin-left:1%;">
+				<li><a href="/near">人际关系查询</a> </li>
+				<li class="active"><a href="#">六度查询</a></li>
+			</ul>
+		</div>
+	</div>
+    <hr>
+    <div id="main-container" class="container" style="margin-left: 0;margin-top:0;padding-left:0">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <form action="/find_path" method="get"><br>
+                        <div class="row">
 
-    <div id="mynetwork" style="float:left;margin-left:1%;"></div>
-    <div style="float:left;margin-left:200px;">
-        <p>result: <span id='result'></span></p>
+                            <div class="col-lg-2 col-sm-3">
+
+                                <input type="text" class="form-control" name="htitle" id="fname" name="p" placeholder="姓名1">
+                                <div class="errormessage"></div>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
+                                <input type="text" class="form-control" name="htitle" id="tname" name="p" placeholder="姓名2">
+                                <div class="errormessage"></div>
+                            </div>
+                            <div class="col-lg-2 col-sm-3">
+                                <input type="button" class="btn btn-default" style="" name="Submit" value="查询" id='btn-commit' />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel-body">
+                    <div id="mynetwork" style=""></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4 col-sm-12 col-xs-12" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a class="btn btn-success"></a>
+                </div>
+                <div class="panel-body" style="" id="resultbody">
+                    <div id="result">
+                        <h3>搜索结果</h3>
+
+                    </div>
+                </div>
+            </div>
+            <!--p>result: <span id='result1'></span></p-->
+        </div>
+
     </div>
-
 
 
 
@@ -83,6 +116,7 @@ $('#ex1').slider({
     var network = null;
     // Horizontal slider
     $(document).ready(function(){
+        //$("#resultbody").height($(window).height());
         $("#btn-commit").click(function(){
             nodes = [];
             edges = [];
@@ -108,10 +142,15 @@ $('#ex1').slider({
                 console.log(edges);
                 draw();
                 $("#result").html(str);*/
-                str = '<br>';
+                //
+                str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
                 t_nodes = ret[0];
                 t_rels = ret[1];
                 t_paths = ret[2];
+                if(t_paths.length==0){
+                    alert("没找到这条联系哟，是不是输错名字了？");
+                    return ;
+                }
                 for(var i in t_nodes){
                     console.log(fname);
                     console.log(t_nodes[i]);
@@ -130,6 +169,7 @@ $('#ex1').slider({
                 }
 
                 for(var i in t_paths){
+                    path = ""
                     for(var j in t_paths[i]['path']){
                         if(i==0){
                             edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"}});
@@ -138,10 +178,13 @@ $('#ex1').slider({
 
                             edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
                         }
-                        str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
+                        //str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
+                        path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                     }
-                    str += tname + '<br>'
+                    path += tname
+                    str += "<tr><td>"+path+"</td></tr>"
                 }
+                str+='</tbody></table>'
                 $("#result").html(str)
                 draw();
             })
