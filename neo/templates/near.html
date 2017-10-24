@@ -36,14 +36,11 @@
 			<ul class="nav nav-tabs" style="margin-left:1%;">
 				<li class="active">
 					<a href="#">人际关系查询</a> </li>
-				<!--li><a href="path.html?id=扎克伯格&卡扎菲">六度查询</a></li-->
                 <li><a href="/path?id=扎克伯格&卡扎菲">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
-
     <hr>
-    <!--label for="pname" style="margin-left:1%;">人际关系查询</label-->
      <div id="main-container" class="container" style="margin-left: 0;padding-left:0px;">
         <div class="row">
             <div class="col-md-8 col-sm-12 col-xs-12">
@@ -62,7 +59,6 @@
                                     <div class="col-lg-3 col-sm-3">
                                         <label for="ex1">是否显示邻居间关系：</label>
                                             <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
-
                                             <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
                                     </div>
                                     <div class="col-lg-2 col-sm-3">
@@ -77,195 +73,139 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-12 col-xs-12" >
-                    <div class="panel panel-default" style="">
-                        <div class="panel-heading">
-                            <a class="btn btn-success"></a>
-                        </div>
-                        <div class="panel-body" style="" id="resultbody">
-                            <div id="result">
-                                <h3><span id="resulttitle">的人际关系</span></h3>
-                            </div>
+                <div class="panel panel-default" style="">
+                    <div class="panel-heading">
+                        <a class="btn btn-success"></a>
+                    </div>
+                    <div class="panel-body" style="" id="resultbody">
+                        <div id="result">
+                            <h3><span id="resulttitle">的人际关系</span></h3>
                         </div>
                     </div>
-            <!--p>result: <span id='result1'></span></p-->
+                </div>
             </div>
         </div>
      </div>
-
     <input type="hidden" id="hid" value="14"></input>
 
-<script type="text/javascript">
-
-    var nodes = [];
-    var edges = [];
-    var network = null;
-    var maxn = 14;
-    $(document).ready(function(){
-        slide = $('#ex1').slider({
-	        formatter: function(value) {
-	            maxn = value;
-	            //console.log(value)
-		    return 'Current value: ' + value;
-	        }
-        });
-        $("#ex1").on("slide", function(slideEvt) {
-	        $("#hid").val(slideEvt.value);
-        });
-        $("#btn-commit").click(function(){
-
-
-            var name = $("#pname").val();
-            if(name==""){
-                alert("请输入一个人的姓名！");
-                return ;
-            }
-            len = name.split("&").length;
-            //alert(len);
-            //console.log(name);
-            if(len>1){
-                //alert("in");
-                if(name.split("&")[0]==""&&name.split("&")[1]!=""){
-                    location.href="/near?name="+name.split("&")[1];
+    <script type="text/javascript">
+        var nodes = [];
+        var edges = [];
+        var network = null;
+        var maxn = 14;
+        $(document).ready(function(){
+            slide = $('#ex1').slider({
+                formatter: function(value) {
+                    maxn = value;
+                return 'Current value: ' + value;
+                }
+            });
+            $("#ex1").on("slide", function(slideEvt) {
+                $("#hid").val(slideEvt.value);
+            });
+            $("#btn-commit").click(function(){
+                var name = $("#pname").val();
+                if(name==""){
+                    alert("请输入一个人的姓名！");
                     return ;
                 }
-                else if(name.split("&")[1]==""&&name.split("&")[0]!=""){
-                    //alert("i");
-                     //console.log("/near?name="+name.split("&")[0]);
-                     location.href="/near?name="+name.split("&")[0];
-                     return ;
-                }
-                else{
-                    //alert("?");
-                    window.location.href="/path?ids="+name.split("&")[0]+"&"+name.split("&")[1];
-                    return ;
-                }
-            }
-            //console.log("click");
-            nodes = [];
-            edges = [];
-            network = [];
-            $("#resulttitle").html(name+"的人际关系")
-            var maxnear = $("#ex1").val();
-            snode = {id:name,label:name,color:{background:"#ff9966"}};
-            nodes.push(snode);
-            maxn = $("#hid").val();
-            var mr = 1;
-            if($("#optionsRadios1").is(":checked")){
-                mr = 0
-            }
-
-            //console.log(maxn);
-            $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
-                //str = '';
-                str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
-                //console.log(ret);
-                if(ret.length==0){
-                    alert("没有找到这个人的信息，输一个我知道的人吧！");
-                    return ;
-                }
-                for(var i in ret){
-                    if(ret[i]["end.name"] == name) continue;
-                    node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
-                    edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
-                    if(ret[i]['n.name'] == name){
-                        nodes.push(node)
-                        str += "<tr><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
+                len = name.split("&").length;
+                if(len>1){
+                    if(name.split("&")[0]==""&&name.split("&")[1]!=""){
+                        location.href="/near?name="+name.split("&")[1];
+                        return ;
                     }
-                    edges.push(edge)
-
+                    else if(name.split("&")[1]==""&&name.split("&")[0]!=""){
+                        location.href="/near?name="+name.split("&")[0];
+                        return ;
+                    }
+                    else{
+                        window.location.href="/path?ids="+name.split("&")[0]+"&"+name.split("&")[1];
+                        return ;
+                    }
                 }
-                str += "</tbody></table>"
-                //console.log(str);
-                //console.log(edges);
-                draw();
-                $("#result").html(str);
+                nodes = [];
+                edges = [];
+                network = [];
                 $("#resulttitle").html(name+"的人际关系")
-                $('#mytable').DataTable({
-                    "paging": true,
-                    "iDisplayLength": 12, //默认每页数量
-                    "bPaginate": true, //翻页功能
-                    "bLengthChange": false, //改变每页显示数据数量
-                    "bFilter": false, //过滤功能
-                    "bInfo": true, //页脚信息
-                    "bAutoWidth": true, //自动宽度
-                    "bRetrieve": true,
-                    "processing": true,
-                    //"serverSide" : true,//服务器端进行分页处理的意思
-                    //"bPaginate": true,
-                    //"bProcessing": true
-                    columns : [{data : "id"},{data:"value"}],
-                });
-            })
-        });
+                var maxnear = $("#ex1").val();
+                snode = {id:name,label:name,color:{background:"#ff9966"}};
+                nodes.push(snode);
+                maxn = $("#hid").val();
+                var mr = 1;
+                if($("#optionsRadios1").is(":checked")){
+                    mr = 0
+                }
+                $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
+                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
+                    if(ret.length==0){
+                        alert("没有找到这个人的信息，输一个我知道的人吧！");
+                        return ;
+                    }
+                    for(var i in ret){
+                        if(ret[i]["end.name"] == name) continue;
+                        node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
+                        edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
+                        if(ret[i]['n.name'] == name){
+                            nodes.push(node)
+                            str += "<tr><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
+                        }
+                        edges.push(edge)
 
-        if(window.location.href.split("=").length>1){
-            id = window.location.href.split("=")[1];
-            //console.log(id);
-            //$("#pname").val(decodeURI(id));
-            //$('#btn-commit').trigger("click");
-            id = decodeURI(id);
-            $("#pname").val(id);
-            $('#btn-commit').trigger("click");
-        }
-        else{
-            $("#pname").val("李克强");
-            $('#btn-commit').trigger("click");
-        }
-    });
-    function draw() {
-      // create people.
-      // value corresponds with the age of the person
-      /*
-      nodes = [
-        {id: 1,  value: 2,  label: 'Algie' },
-        {id: 2,  value: 31, label: 'Alston'},
-        {id: 3,  value: 12, label: 'Barney'},
-        {id: 4,  value: 16, label: 'Coley' },
-        {id: 5,  value: 17, label: 'Grant' },
-        {id: 6,  value: 15, label: 'Langdon'},
-        {id: 7,  value: 6,  label: 'Lee'},
-        {id: 8,  value: 5,  label: 'Merlin'},
-        {id: 9,  value: 30, label: 'Mick'},
-        {id: 10, value: 18, label: 'Tod'},
-      ];*/
-      
+                    }
+                    str += "</tbody></table>"
+                    draw();
+                    $("#result").html(str);
+                    $("#resulttitle").html(name+"的人际关系")
+                    $('#mytable').DataTable({
+                        "paging": true,
+                        "iDisplayLength": 12, //默认每页数量
+                        "bPaginate": true, //翻页功能
+                        "bLengthChange": false, //改变每页显示数据数量
+                        "bFilter": false, //过滤功能
+                        "bInfo": true, //页脚信息
+                        "bAutoWidth": true, //自动宽度
+                        "bRetrieve": true,
+                        "processing": true,
+                        //"serverSide" : true,//服务器端进行分页处理的意思
+                        //"bPaginate": true,
+                        //"bProcessing": true
+                        columns : [{data : "id"},{data:"value"}],
+                    });
+                })
+            });
 
-      // create connections between people
-      // value corresponds with the amount of contact between two people
-      /*
-      edges = [
-        {from: 2, to: 8, value: 3, title: '3 emails per week'},
-        {from: 2, to: 9, value: 5, title: '5 emails per week'},
-        {from: 2, to: 10,value: 1, title: '1 emails per week'},
-        {from: 4, to: 6, value: 8, title: '8 emails per week'},
-        {from: 5, to: 7, value: 2, title: '2 emails per week'},
-        {from: 4, to: 5, value: 1, title: '1 emails per week'},
-        {from: 9, to: 10,value: 2, title: '2 emails per week'},
-        {from: 2, to: 3, value: 6, title: '6 emails per week'},
-        {from: 3, to: 9, value: 4, title: '4 emails per week'},
-        {from: 5, to: 3, value: 1, title: '1 emails per week'},
-        {from: 2, to: 7, value: 4, title: '4 emails per week'}
-      ];
-*/
-      // Instantiate our network object.
-      var container = document.getElementById('mynetwork');
-      var data = {
-        nodes: nodes,
-        edges: edges
-      };
-      var options = {
-        nodes: {
-          shape: 'dot',
-          scaling:{
-            label: {
-              min:8,
-              max:20
+            if(window.location.href.split("=").length>1){
+                id = window.location.href.split("=")[1];
+                id = decodeURI(id);
+                $("#pname").val(id);
+                $('#btn-commit').trigger("click");
             }
-          }
+            else{
+                $("#pname").val("李克强");
+                $('#btn-commit').trigger("click");
+            }
+        });
+        function draw() 
+        {
+            var container = document.getElementById('mynetwork');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                nodes: {
+                shape: 'dot',
+                scaling:{
+                    label: {
+                    min:8,
+                    max:20
+                    }
+                }
+                }
+            };
+            network = new vis.Network(container, data, options);
         }
-      };
-      network = new vis.Network(container, data, options);
-    }
-  </script>
+    </script>
 </body>
 </html>

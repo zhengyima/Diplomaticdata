@@ -73,23 +73,16 @@
                         </div>
                     </div>
                 </div>
-                <!--p>result: <span id='result1'></span></p-->
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
-        // Instantiate a slider
+        /* initial a slider */
         var mySlider = $("input.slider").slider();
-
-        // Call a method on the slider
         var value = mySlider.slider('getValue');
-
-        // For non-getter methods, you can chain together commands
         mySlider
             .slider('setValue', 5)
             .slider('setValue', 7);
-        // With JQuery
         $('#ex1').slider({
 	        formatter: function(value) {
 		    return 'Current value: ' + value;
@@ -99,11 +92,8 @@
         var nodes = [];
         var edges = [];
         var network = null;
-        // Horizontal slider
         $(document).ready(function(){
-            //$("#resultbody").height($(window).height());
             $("#btn-commit").click(function(){
-                //console.log("click");
                 nodes = [];
                 edges = [];
                 network = [];
@@ -133,8 +123,6 @@
                         return ;
                     }
                     for(var i in t_nodes){
-                        //console.log(fname);
-                        //console.log(t_nodes[i]);
                         if(fname == t_nodes[i]){
                             nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#ff9966"}})
                         }
@@ -155,7 +143,6 @@
 
                                 edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
                             }
-                            //str += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                             path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                         }
                         path += tname
@@ -165,31 +152,28 @@
                     $("#result").html(str);
                     $("#resulttitle").html(fname+"到"+tname+"的路径查询")
                     $('#mytable').DataTable({
-                    "paging": true,
-                    "iDisplayLength": 8, //默认每页数量
-                    "bPaginate": true, //翻页功能
-                    "bLengthChange": false, //改变每页显示数据数量
-                    "bFilter": false, //过滤功能
-                    "bInfo": true, //页脚信息
-                    "bAutoWidth": true, //自动宽度
-                    "bRetrieve": true,
-                    "processing": true,
-                    //"serverSide" : true,//服务器端进行分页处理的意思
-                    //"bPaginate": true,
-                    //"bProcessing": true
-                    columns : [{data : "id"}],
-                });
+                        "paging": true,
+                        "iDisplayLength": 8, //默认每页数量
+                        "bPaginate": true, //翻页功能
+                        "bLengthChange": false, //改变每页显示数据数量
+                        "bFilter": false, //过滤功能
+                        "bInfo": true, //页脚信息
+                        "bAutoWidth": true, //自动宽度
+                        "bRetrieve": true,
+                        "processing": true,
+                        //"serverSide" : true,//服务器端进行分页处理的意思
+                        //"bPaginate": true,
+                        //"bProcessing": true
+                        columns : [{data : "id"}],
+                    });
                     draw();
                 })
             });
+            /* 处理页面参数 */
             if(window.location.href.split("=").length>1){
                 ids = window.location.href.split("=")[1];
-                //console.log(ids);
                 ids = decodeURI(ids);
-                //console.log(ids);
                 if(ids.split("&").length>1){
-                    //console.log(ids.split("&")[0]);
-                    //console.log(ids.split("&")[1])
                     $("#fname").val(ids.split("&")[0]);
                     $("#tname").val(ids.split("&")[1]);
                     $('#btn-commit').trigger("click");
@@ -210,61 +194,27 @@
                 $("#tname").val("卡扎菲");
                 $('#btn-commit').trigger("click");
             }
-    });
-    function draw() {
-      // create people.
-      // value corresponds with the age of the person
-      /*
-      nodes = [
-        {id: 1,  value: 2,  label: 'Algie' },
-        {id: 2,  value: 31, label: 'Alston'},
-        {id: 3,  value: 12, label: 'Barney'},
-        {id: 4,  value: 16, label: 'Coley' },
-        {id: 5,  value: 17, label: 'Grant' },
-        {id: 6,  value: 15, label: 'Langdon'},
-        {id: 7,  value: 6,  label: 'Lee'},
-        {id: 8,  value: 5,  label: 'Merlin'},
-        {id: 9,  value: 30, label: 'Mick'},
-        {id: 10, value: 18, label: 'Tod'},
-      ];*/
-      
-
-      // create connections between people
-      // value corresponds with the amount of contact between two people
-      /*
-      edges = [
-        {from: 2, to: 8, value: 3, title: '3 emails per week'},
-        {from: 2, to: 9, value: 5, title: '5 emails per week'},
-        {from: 2, to: 10,value: 1, title: '1 emails per week'},
-        {from: 4, to: 6, value: 8, title: '8 emails per week'},
-        {from: 5, to: 7, value: 2, title: '2 emails per week'},
-        {from: 4, to: 5, value: 1, title: '1 emails per week'},
-        {from: 9, to: 10,value: 2, title: '2 emails per week'},
-        {from: 2, to: 3, value: 6, title: '6 emails per week'},
-        {from: 3, to: 9, value: 4, title: '4 emails per week'},
-        {from: 5, to: 3, value: 1, title: '1 emails per week'},
-        {from: 2, to: 7, value: 4, title: '4 emails per week'}
-      ];
-*/
-      // Instantiate our network object.
-      var container = document.getElementById('mynetwork');
-      var data = {
-        nodes: nodes,
-        edges: edges
-      };
-      var options = {
-        nodes: {
-          shape: 'dot',
-          scaling:{
-            label: {
-              min:8,
-              max:20
-            }
-          }
+        });
+        function draw() 
+        {
+            var container = document.getElementById('mynetwork');
+            var data = {
+            nodes: nodes,
+            edges: edges
+            };
+            var options = {
+                nodes: {
+                shape: 'dot',
+                scaling:{
+                    label: {
+                        min:8,
+                        max:20
+                        }
+                    }
+                }
+            };
+            network = new vis.Network(container, data, options);
         }
-      };
-      network = new vis.Network(container, data, options);
-    }
   </script>
 </body>
 </html>

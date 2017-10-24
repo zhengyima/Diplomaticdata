@@ -71,36 +71,22 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-                    $('#table_id')
-                        .DataTable(
-                            {
-                                "paging": true,
-                                "iDisplayLength": 2, //默认每页数量
-                                //"bPaginate": true, //翻页功能
-                                "bLengthChange": true, //改变每页显示数据数量
-                                "bFilter": true, //过滤功能
-                                "bInfo": true, //页脚信息
-                                "bAutoWidth": true, //自动宽度
-                                "bRetrieve": true,
-                                "processing": true,
-                                //"serverSide" : true,//服务器端进行分页处理的意思
-                                "bPaginate": true,
-                               //"bProcessing": true
-                                columns : [
-                                                        {
-                                                            data : "id"
-                                                        },
-                                                        {
-                                                            data : "code"
-                                                        },
-                                                        {
-                                                            data : "srvName"
-                                                        },
-                                             ],
-
-       
-                                            });
-                        });
+    $('#table_id').DataTable({
+        "paging": true,
+        "iDisplayLength": 2, //默认每页数量
+        //"bPaginate": true, //翻页功能
+        "bLengthChange": true, //改变每页显示数据数量
+        "bFilter": true, //过滤功能
+        "bInfo": true, //页脚信息
+        "bAutoWidth": true, //自动宽度
+        "bRetrieve": true,
+        "processing": true,
+        //"serverSide" : true,//服务器端进行分页处理的意思
+        "bPaginate": true,
+        //"bProcessing": true
+        columns : [{data : "id"},{data : "code"},{data : "srvName"},],
+        });
+    });
 </script>
 </body>
 </html>
