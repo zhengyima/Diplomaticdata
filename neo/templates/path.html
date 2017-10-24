@@ -103,26 +103,26 @@
         $(document).ready(function(){
             //$("#resultbody").height($(window).height());
             $("#btn-commit").click(function(){
-                console.log("click");
+                //console.log("click");
                 nodes = [];
                 edges = [];
                 network = [];
                 var fname = $("#fname").val();
                 var tname = $("#tname").val();
                 $("#resulttitle").html(fname+"到"+tname+"的路径查询")
-                $.get("http://localhost:8000/find_path",{'fname':fname,'tname':tname}, function(ret){
-                    console.log(ret);
+                $.get("/find_path",{'fname':fname,'tname':tname}, function(ret){
                     str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th></thead><tbody>";
                     t_nodes = ret[0];
                     t_rels = ret[1];
                     t_paths = ret[2];
+                     $("#resulttitle").html("in")
                     if(t_paths.length==0){
                         alert("没找到这条联系哟，是不是输错名字了？");
                         return ;
                     }
                     for(var i in t_nodes){
-                        console.log(fname);
-                        console.log(t_nodes[i]);
+                        //console.log(fname);
+                        //console.log(t_nodes[i]);
                         if(fname == t_nodes[i]){
                             nodes.push({id:t_nodes[i],label:t_nodes[i],color:{background:"#ff9966"}})
                         }
@@ -172,20 +172,33 @@
             });
             if(window.location.href.split("=").length>1){
                 ids = window.location.href.split("=")[1];
-                console.log(ids);
+                //console.log(ids);
                 ids = decodeURI(ids);
-                console.log(ids);
+                //console.log(ids);
                 if(ids.split("&").length>1){
                     //console.log(ids.split("&")[0]);
                     //console.log(ids.split("&")[1])
-                    $("#fname").val(decodeURI(ids.split("&")[0]));
-                    $("#tname").val(decodeURI(ids.split("&")[1]));
-                    $('#btn-commit').trigger("click");
+                    if(ids.split("&")[0]==""&&ids.split("&")[1]!=""){
+                        location.href="/near?name="+ids.split("&")[1];
+                    }
+                    else if(ids.split("&")[1]==""&&ids.split("&")[0]!=""){
+                        location.href="/near?name="+ids.split("&")[0];
+                    }
+                    else{
+                        $("#fname").val(decodeURI(ids.split("&")[0]));
+                        $("#tname").val(decodeURI(ids.split("&")[1]));
+                        $('#btn-commit').trigger("click");
+                    }
                 }
                 else{
-                    $("#fname").val("扎克伯格");
-                    $("#tname").val("卡扎菲");
-                    $('#btn-commit').trigger("click");
+                    if(ids!=""){
+                         location.href="/near?name="+ids;
+                    }
+                    else{
+                        $("#fname").val("扎克伯格");
+                        $("#tname").val("卡扎菲");
+                        $('#btn-commit').trigger("click");
+                    }
                 }
             }
             else{

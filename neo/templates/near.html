@@ -173,9 +173,35 @@
 
         if(window.location.href.split("=").length>1){
             id = window.location.href.split("=")[1];
-            console.log(id);
-            $("#pname").val(decodeURI(id));
-            $('#btn-commit').trigger("click");
+            //console.log(id);
+            //$("#pname").val(decodeURI(id));
+            //$('#btn-commit').trigger("click");
+            id = decodeURI(id);
+            len = id.split("&").length
+            //alert(len);
+            if(len>1){
+                id1 = id.split("&")[0];
+                id2 = id.split("&")[1];
+                //alert(id1);
+                //alert(id2);
+                if(id2==""&&id1!=""){
+                    $("#pname").val(id1);
+                    $('#btn-commit').trigger("click");
+                }
+                else if(id1==""&&id2!=""){
+                    $("#pname").val(id2);
+                    $('#btn-commit').trigger("click");
+                }
+                else{
+                    //console.log( id.split("&")[0]);
+                    //console.log("/path?id="+id.split("&")[0]+"&"+id.split("&")[1]);
+                    location.href="/path?id="+id.split("&")[0]+"&"+id.split("&")[1];
+                }
+            }
+            else{
+                $("#pname").val(decodeURI(id));
+                $('#btn-commit').trigger("click");
+            }
         }
         else{
             $("#pname").val("李克强");
