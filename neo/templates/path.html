@@ -109,6 +109,14 @@
                 network = [];
                 var fname = $("#fname").val();
                 var tname = $("#tname").val();
+                if(fname==""&&tname!=""){
+                    location.href="/near?name="+tname;
+                    return ;
+                }
+                else if(fname!=""&&tname==""){
+                    location.href="/near?name="+fname;
+                    return ;
+                }
                 $("#resulttitle").html(fname+"到"+tname+"的路径查询")
                 $.get("/find_path",{'fname':fname,'tname':tname}, function(ret){
                     str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th></thead><tbody>";
@@ -178,17 +186,9 @@
                 if(ids.split("&").length>1){
                     //console.log(ids.split("&")[0]);
                     //console.log(ids.split("&")[1])
-                    if(ids.split("&")[0]==""&&ids.split("&")[1]!=""){
-                        location.href="/near?name="+ids.split("&")[1];
-                    }
-                    else if(ids.split("&")[1]==""&&ids.split("&")[0]!=""){
-                        location.href="/near?name="+ids.split("&")[0];
-                    }
-                    else{
-                        $("#fname").val(decodeURI(ids.split("&")[0]));
-                        $("#tname").val(decodeURI(ids.split("&")[1]));
-                        $('#btn-commit').trigger("click");
-                    }
+                    $("#fname").val(ids.split("&")[0]);
+                    $("#tname").val(ids.split("&")[1]);
+                    $('#btn-commit').trigger("click");
                 }
                 else{
                     if(ids!=""){
