@@ -104,7 +104,7 @@
         slide = $('#ex1').slider({
 	        formatter: function(value) {
 	            maxn = value;
-	            console.log(value)
+	            //console.log(value)
 		    return 'Current value: ' + value;
 	        }
         });
@@ -112,11 +112,34 @@
 	        $("#hid").val(slideEvt.value);
         });
         $("#btn-commit").click(function(){
-            console.log("click");
+
+
+            var name = $("#pname").val();
+            len = name.split("&").length;
+            //alert(len);
+            //console.log(name);
+            if(len>1){
+                //alert("in");
+                if(name.split("&")[0]==""&&name.split("&")[1]!=""){
+                    location.href="/near?name="+name.split("&")[1];
+                    return ;
+                }
+                else if(name.split("&")[1]==""&&name.split("&")[0]!=""){
+                    //alert("i");
+                     //console.log("/near?name="+name.split("&")[0]);
+                     location.href="/near?name="+name.split("&")[0];
+                     return ;
+                }
+                else{
+                    //alert("?");
+                    window.location.href="/path?ids="+name.split("&")[0]+"&"+name.split("&")[1];
+                    return ;
+                }
+            }
+            //console.log("click");
             nodes = [];
             edges = [];
             network = [];
-            var name = $("#pname").val();
             $("#resulttitle").html(name+"的人际关系")
             var maxnear = $("#ex1").val();
             snode = {id:name,label:name,color:{background:"#ff9966"}};
@@ -127,7 +150,7 @@
                 mr = 0
             }
 
-            console.log(maxn);
+            //console.log(maxn);
             $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
                 //str = '';
                 str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
@@ -148,7 +171,7 @@
 
                 }
                 str += "</tbody></table>"
-                console.log(str);
+                //console.log(str);
                 //console.log(edges);
                 draw();
                 $("#result").html(str);
@@ -177,31 +200,8 @@
             //$("#pname").val(decodeURI(id));
             //$('#btn-commit').trigger("click");
             id = decodeURI(id);
-            len = id.split("&").length
-            //alert(len);
-            if(len>1){
-                id1 = id.split("&")[0];
-                id2 = id.split("&")[1];
-                //alert(id1);
-                //alert(id2);
-                if(id2==""&&id1!=""){
-                    $("#pname").val(id1);
-                    $('#btn-commit').trigger("click");
-                }
-                else if(id1==""&&id2!=""){
-                    $("#pname").val(id2);
-                    $('#btn-commit').trigger("click");
-                }
-                else{
-                    //console.log( id.split("&")[0]);
-                    //console.log("/path?id="+id.split("&")[0]+"&"+id.split("&")[1]);
-                    location.href="/path?id="+id.split("&")[0]+"&"+id.split("&")[1];
-                }
-            }
-            else{
-                $("#pname").val(decodeURI(id));
-                $('#btn-commit').trigger("click");
-            }
+            $("#pname").val(id);
+            $('#btn-commit').trigger("click");
         }
         else{
             $("#pname").val("李克强");
