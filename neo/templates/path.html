@@ -117,6 +117,10 @@
                     location.href="/near?name="+fname;
                     return ;
                 }
+                else if(fname==""&&tname==""){
+                    alert("请输入两个人的姓名！");
+                    return ;
+                }
                 $("#resulttitle").html(fname+"到"+tname+"的路径查询")
                 $.get("/find_path",{'fname':fname,'tname':tname}, function(ret){
                     str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th></thead><tbody>";

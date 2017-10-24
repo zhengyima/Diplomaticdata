@@ -115,6 +115,10 @@
 
 
             var name = $("#pname").val();
+            if(name==""){
+                alert("请输入一个人的姓名！");
+                return ;
+            }
             len = name.split("&").length;
             //alert(len);
             //console.log(name);
