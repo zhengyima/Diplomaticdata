@@ -98,6 +98,7 @@
         });
 
         var nodes = [];
+        var edgeset;
         var edges = [];
         var network = null;
         $(document).ready(function(){
@@ -105,6 +106,7 @@
                 nodes = [];
                 edges = [];
                 network = [];
+                var t_paths;
                 var fname = $("#fname").val();
                 var tname = $("#tname").val();
                 if(fname==""&&tname!=""){
@@ -146,11 +148,11 @@
                         path = ""
                         for(var j in t_paths[i]['path']){
                             if(i==0){
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"},pid:i});
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
                             }
                             else{
 
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
                             }
                             path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                         }
@@ -190,24 +192,62 @@
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
                         console.log(data);//某一行中要是用的表头值
-                        //draw();
                         console.log("draw");
 
-                        //console.log(nodes);
-                        //var nodeID = data['id'];
-                        //var clickNode = nodeset.get(nodeID);
-                        //console.log(clickNode);
-                        /*
-                        clickNode.color = {
-                            border: '#2cad0c',
-                            background: '#7bd655',
-                            highlight: {
-                                border: '#2cad0c',
-                                background: '#7bd655'
+                        console.log(t_paths[data['pid']]);
+                        var items =edgeset.get({
+                            filter: function (item) {
+                            return item.pid == data['pid'];
                             }
+                        });
+                        console.log(items);
+                        for(i=0;i<items.length;i++){
+                            items[i].color={
+                                color:"#ff0000"
+                            }
+                            edgeset.update(items[i]);
                         }
-                        nodeset.update(clickNode); */               
+                    });
+                    $("#mytable tbody").on("mouseout","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        console.log(data);//某一行中要是用的表头值
+                        console.log("draw");
 
+                        console.log(t_paths[data['pid']]);
+                        var items =edgeset.get({
+                            filter: function (item) {
+                            return item.pid == data['pid'];
+                            }
+                        });
+                        console.log(items);
+                        for(i=0;i<items.length;i++){
+                            items[i].color={
+                                color:"#2B7CE9"
+                            }
+                            edgeset.update(items[i]);
+                        }
+                    });
+                    $("#mytable tbody").on("click","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        console.log(data);//某一行中要是用的表头值
+                        console.log("draw");
+
+                        console.log(t_paths[data['pid']]);
+                        var items =edgeset.get({
+                            filter: function (item) {
+                            return item.pid != data['pid'];
+                            }
+                        });
+                        console.log(items);
+                        for(i=0;i<items.length;i++){
+                            //items[i].color={
+                              //  color:"#ffffff"
+                            //}
+                            items[i].hidden=true;
+                            edgeset.update(items[i]);
+                        }
                     });
                 })
             });
@@ -240,9 +280,10 @@
         function draw() 
         {
             var container = document.getElementById('mynetwork');
+            edgeset = new vis.DataSet(edges)
             var data = {
             nodes: nodes,
-            edges: edges
+            edges: edgeset
             };
             var options = {
                 nodes: {

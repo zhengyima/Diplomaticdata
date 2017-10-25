@@ -39,7 +39,12 @@ def find_near(request):
     data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) return r.value, "
                            "n.name,end.name order by r.value desc limit " +maxn ,str=a)
     if(request.GET['mr'] == "1"):
-        return HttpResponse(json.dumps(data), content_type="application/json")
+        response = HttpResponse(json.dumps(data), content_type="application/json")
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Max-Age"] = "1000"
+        response["Access-Control-Allow-Headers"] = "*"
+        return response
     #tdata = []
     #for i in range(0,maxn):
     #    tdata[i] = data[i]
