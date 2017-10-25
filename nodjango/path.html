@@ -13,6 +13,14 @@
             height: 600px;
             border: 1px solid lightgray;
         }
+        #mytable td{
+            padding:10px 18px
+        }
+        #mytable tbody tr:hover {  
+        background-color: #0180FE;  
+        color: #fff;  
+        cursor:pointer;  
+        }
     </style>
     <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="static/dist/vis.js"></script>
@@ -113,6 +121,7 @@
                 }
                 $("#resulttitle").html(fname+"到"+tname+"的路径查询")
                 $.get("http://127.0.0.1:8000/find_path",{'fname':fname,'tname':tname}, function(ret){
+                    console.log(ret);
                     str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th></thead><tbody>";
                     t_nodes = ret[0];
                     t_rels = ret[1];
@@ -137,7 +146,7 @@
                         path = ""
                         for(var j in t_paths[i]['path']){
                             if(i==0){
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"}});
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"},pid:i});
                             }
                             else{
 
@@ -151,6 +160,7 @@
                     str+='</tbody></table>'
                     $("#result").html(str);
                     $("#resulttitle").html(fname+"到"+tname+"的路径查询")
+                    var table=
                     $('#mytable').DataTable({
                         "paging": true,
                         "iDisplayLength": 8, //默认每页数量
@@ -169,6 +179,29 @@
                         columns : [{data : "id"}],
                     });
                     draw();
+                    $("#mytable tbody").on("mouseover","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        console.log(data);//某一行中要是用的表头值
+                        //draw();
+                        console.log("draw");
+
+                        //console.log(nodes);
+                        //var nodeID = data['id'];
+                        //var clickNode = nodeset.get(nodeID);
+                        //console.log(clickNode);
+                        /*
+                        clickNode.color = {
+                            border: '#2cad0c',
+                            background: '#7bd655',
+                            highlight: {
+                                border: '#2cad0c',
+                                background: '#7bd655'
+                            }
+                        }
+                        nodeset.update(clickNode); */               
+
+                    });
                 })
             });
             /* 处理页面参数 */
@@ -219,7 +252,11 @@
                             border: '#f90909'
                         },
                     }
-                }
+                },
+
+                layout:{
+                    randomSeed:1,//配置每次生成的节点位置都一样，参数为数字1、2等
+                },
             };
             network = new vis.Network(container, data, options);
             
