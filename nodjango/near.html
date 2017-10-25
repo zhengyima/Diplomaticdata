@@ -189,7 +189,19 @@
                         //draw();
                         console.log("draw");
 
-                    console.log(nodes);
+                        console.log(nodes);
+                        var nodeID = data['id'];
+                        var clickNode = nodes.get(nodeID);
+                        clickedNode.color = {
+                            border: '#000000',
+                            background: '#000000',
+                            highlight: {
+                                border: '#2B7CE9',
+                                background: '#D2E5FF'
+                            }
+                        }
+                        nodes.update(clickedNode);                
+
                     });
                 })
             });
