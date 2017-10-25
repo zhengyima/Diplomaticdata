@@ -16,10 +16,10 @@
     #mytable td{
         padding:10px 18px
     }
-    #mytable tr:hover {  
+    #mytable tbody tr:hover {  
     background-color: #0180FE;  
     color: #fff;  
-    cursor:hand;  
+    cursor:pointer;  
     }
   
 .dataTable tr:hover td {background:none;}
@@ -30,7 +30,7 @@
     <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
     <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
-    <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <link  href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
     <link  href="static/css/slider.css" rel="stylesheet">
@@ -96,6 +96,7 @@
     <input type="hidden" id="hid" value="14"></input>
 
     <script type="text/javascript">
+        var nodeset ;
         var nodes = [];
         var edges = [];
         var network = null;
@@ -155,7 +156,7 @@
                         edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
                         if(ret[i]['n.name'] == name){
                             nodes.push(node)
-                            str += "<tr><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
+                            str += "<tr class='mytr'><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
                         }
                         edges.push(edge)
 
@@ -182,7 +183,7 @@
                         //"bProcessing": true
                         columns : [{data : "id"},{data:"value"}],
                     });
-                    $("#mytable").on("click","tr",function()
+                    $("#mytable tbody").on("mouseover","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
                         console.log(data);//某一行中要是用的表头值
@@ -191,16 +192,43 @@
 
                         console.log(nodes);
                         var nodeID = data['id'];
-                        var clickNode = nodes.get(nodeID);
-                        clickedNode.color = {
-                            border: '#000000',
-                            background: '#000000',
+                        var clickNode = nodeset.get(nodeID);
+                        console.log(clickNode);
+                        clickNode.color = {
+                            border: '#2cad0c',
+                            background: '#7bd655',
                             highlight: {
-                                border: '#2B7CE9',
-                                background: '#D2E5FF'
+                                border: '#2cad0c',
+                                background: '#7bd655'
                             }
                         }
-                        nodes.update(clickedNode);                
+                        nodeset.update(clickNode);                
+
+                    });
+                    $("#mytable tbody").on("mouseout","tr",function()
+                    {//给tr或者td添加click事件
+                        console.log("mouseout!");   
+                        var data=table.row(this).data();//获取值的对象数据
+                        var nodeID = data['id'];
+                        var clickNode = nodeset.get(nodeID);
+                        clickNode.color = {
+                            border: '#2B7CE9',
+                            background: '#D2E5FF',
+                            highlight: {
+                                border: '#2cad0c',
+                                background: '#7bd655'
+                            }
+                        }
+                        nodeset.update(clickNode); 
+
+                    });
+                    $("#mytable tbody").on("click","tr",function()
+                    {//给tr或者td添加click事件
+                        console.log("click!");   
+                        var data=table.row(this).data();//获取值的对象数据
+                        var nodeID = data['id'];
+                        $("#pname").val(nodeID);
+                        $("#btn-commit").trigger("click");
 
                     });
                 })
@@ -220,8 +248,9 @@
         function draw() 
         {
             var container = document.getElementById('mynetwork');
+            nodeset = new vis.DataSet(nodes)
             var data = {
-                nodes: nodes,
+                nodes: nodeset,
                 edges: edges
             };
             var options = {
