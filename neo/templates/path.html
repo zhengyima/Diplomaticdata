@@ -13,6 +13,14 @@
             height: 600px;
             border: 1px solid lightgray;
         }
+        #mytable td{
+            padding:10px 18px
+        }
+        #mytable tbody tr:hover {  
+        background-color: #0180FE;  
+        color: #fff;  
+        cursor:pointer;  
+        }
     </style>
     <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="static/dist/vis.js"></script>
@@ -31,7 +39,7 @@
 		<div class="span6">
 			<ul class="nav nav-tabs" style="margin-left:1%;">
 				<li><a href="near.html?name=李克强">人际关系查询</a> </li>
-				<li class="active"><a href="#">六度查询</a></li>
+				<li class="active"><a href="path.html">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
@@ -90,6 +98,7 @@
         });
 
         var nodes = [];
+        var edgeset;
         var edges = [];
         var network = null;
         $(document).ready(function(){
@@ -97,14 +106,15 @@
                 nodes = [];
                 edges = [];
                 network = [];
+                var t_paths;
                 var fname = $("#fname").val();
                 var tname = $("#tname").val();
                 if(fname==""&&tname!=""){
-                    location.href="/near?name="+tname;
+                    location.href="near.html?name="+tname;
                     return ;
                 }
                 else if(fname!=""&&tname==""){
-                    location.href="/near?name="+fname;
+                    location.href="near.html?name="+fname;
                     return ;
                 }
                 else if(fname==""&&tname==""){
@@ -112,8 +122,9 @@
                     return ;
                 }
                 $("#resulttitle").html(fname+"到"+tname+"的路径查询")
-                $.get("/find_path",{'fname':fname,'tname':tname}, function(ret){
-                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th></thead><tbody>";
+                $.get("http://183.174.228.21:1241/find_path",{'fname':fname,'tname':tname}, function(ret){
+                   // console.log(ret);
+                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th><th>pid</th></thead><tbody>";
                     t_nodes = ret[0];
                     t_rels = ret[1];
                     t_paths = ret[2];
@@ -137,20 +148,21 @@
                         path = ""
                         for(var j in t_paths[i]['path']){
                             if(i==0){
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],color:{color:"#ff0000"}});
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
                             }
                             else{
 
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val']});
+                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
                             }
                             path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                         }
                         path += tname
-                        str += "<tr><td>"+path+"</td></tr>"
+                        str += "<tr><td>"+path+"</td><td>"+i+"</td></tr>"
                     }
                     str+='</tbody></table>'
                     $("#result").html(str);
                     $("#resulttitle").html(fname+"到"+tname+"的路径查询")
+                    var table=
                     $('#mytable').DataTable({
                         "paging": true,
                         "iDisplayLength": 8, //默认每页数量
@@ -161,12 +173,82 @@
                         "bAutoWidth": true, //自动宽度
                         "bRetrieve": true,
                         "processing": true,
+                        "ordering": false,
+                        "bSort": false,
                         //"serverSide" : true,//服务器端进行分页处理的意思
                         //"bPaginate": true,
                         //"bProcessing": true
-                        columns : [{data : "id"}],
+                        columns : [{data : "id"},{data:"pid"}],
+                        "columnDefs": [
+                        {
+                            "targets": [ 1 ],
+                            "visible": false,
+                            "searchable": false
+                        }]
+
                     });
                     draw();
+                    $("#mytable tbody").on("mouseover","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        //console.log(data);//某一行中要是用的表头值
+                        //console.log("draw");
+
+                        //console.log(t_paths[data['pid']]);
+                        var items =edgeset.get({
+                            filter: function (item) {
+                            return item.pid == data['pid'];
+                            }
+                        });
+                        //console.log(items);
+                        for(i=0;i<items.length;i++){
+                            items[i].color={
+                                color:"#ff0000"
+                            }
+                            edgeset.update(items[i]);
+                        }
+                    });
+                    $("#mytable tbody").on("mouseout","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        //console.log(data);//某一行中要是用的表头值
+                        //console.log("draw");
+
+                        //console.log(t_paths[data['pid']]);
+                        var items =edgeset.get({
+                            filter: function (item) {
+                            return item.pid == data['pid'];
+                            }
+                        });
+                        //console.log(items);
+                        for(i=0;i<items.length;i++){
+                            items[i].color={
+                                color:"#2B7CE9"
+                            }
+                            edgeset.update(items[i]);
+                        }
+                    });
+                    $("#mytable tbody").on("click","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        //console.log(data);//某一行中要是用的表头值
+                        //console.log("draw");
+
+                        //console.log(t_paths[data['pid']]);
+                        var items =edgeset.get({
+                            filter: function (item) {
+                            return item.pid != data['pid'];
+                            }
+                        });
+                        //console.log(items);
+                        for(i=0;i<items.length;i++){
+                            //items[i].color={
+                              //  color:"#ffffff"
+                            //}
+                            items[i].hidden=true;
+                            edgeset.update(items[i]);
+                        }
+                    });
                 })
             });
             /* 处理页面参数 */
@@ -180,7 +262,7 @@
                 }
                 else{
                     if(ids!=""){
-                         location.href="/near?name="+ids;
+                         location.href="near.html?name="+ids;
                     }
                     else{
                         $("#fname").val("扎克伯格");
@@ -198,22 +280,34 @@
         function draw() 
         {
             var container = document.getElementById('mynetwork');
+            edgeset = new vis.DataSet(edges)
             var data = {
             nodes: nodes,
-            edges: edges
+            edges: edgeset
             };
             var options = {
                 nodes: {
-                shape: 'dot',
-                scaling:{
-                    label: {
+                    shape: 'dot',
+                    scaling:{
+                        label: {
                         min:8,
                         max:20
                         }
+                    },
+                    color:{
+                        highlight: {//节点选中时状态颜色
+                            background: '#ec7171',
+                            border: '#f90909'
+                        },
                     }
-                }
+                },
+
+                layout:{
+                    randomSeed:1,//配置每次生成的节点位置都一样，参数为数字1、2等
+                },
             };
             network = new vis.Network(container, data, options);
+            
         }
   </script>
 </body>

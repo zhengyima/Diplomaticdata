@@ -16,6 +16,13 @@
     #mytable td{
         padding:10px 18px
     }
+    #mytable tbody tr:hover {  
+    background-color: #0180FE;  
+    color: #fff;  
+    cursor:pointer;  
+    }
+  
+.dataTable tr:hover td {background:none;}
   </style>
 
     <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
@@ -23,7 +30,7 @@
     <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
     <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
-    <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <link  href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
     <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
     <link  href="static/css/slider.css" rel="stylesheet">
@@ -35,8 +42,8 @@
 		<div class="span6">
 			<ul class="nav nav-tabs" style="margin-left:1%;">
 				<li class="active">
-					<a href="#">人际关系查询</a> </li>
-                <li><a href="/path?id=扎克伯格&卡扎菲">六度查询</a></li>
+					<a href="near.html">人际关系查询</a> </li>
+                <li><a href="path.html?id=扎克伯格&卡扎菲">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
@@ -57,7 +64,7 @@
                                         <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
                                     </div>
                                     <div class="col-lg-3 col-sm-3">
-                                        <label for="ex1">是否显示邻居间关系：</label>
+                                        <label for="ex1">是否显示邻居间关系：</label></br>
                                             <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
                                             <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
                                     </div>
@@ -89,6 +96,7 @@
     <input type="hidden" id="hid" value="14"></input>
 
     <script type="text/javascript">
+        var nodeset ;
         var nodes = [];
         var edges = [];
         var network = null;
@@ -112,15 +120,15 @@
                 len = name.split("&").length;
                 if(len>1){
                     if(name.split("&")[0]==""&&name.split("&")[1]!=""){
-                        location.href="/near?name="+name.split("&")[1];
+                        location.href="near.html?name="+name.split("&")[1];
                         return ;
                     }
                     else if(name.split("&")[1]==""&&name.split("&")[0]!=""){
-                        location.href="/near?name="+name.split("&")[0];
+                        location.href="near.html?name="+name.split("&")[0];
                         return ;
                     }
                     else{
-                        window.location.href="/path?ids="+name.split("&")[0]+"&"+name.split("&")[1];
+                        window.location.href="path.html?ids="+name.split("&")[0]+"&"+name.split("&")[1];
                         return ;
                     }
                 }
@@ -136,8 +144,8 @@
                 if($("#optionsRadios1").is(":checked")){
                     mr = 0
                 }
-                $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
-                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
+                $.get("http://183.174.228.21:1241/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
+                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped table-hover ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th></thead><tbody>";
                     if(ret.length==0){
                         alert("没有找到这个人的信息，输一个我知道的人吧！");
                         return ;
@@ -148,7 +156,7 @@
                         edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
                         if(ret[i]['n.name'] == name){
                             nodes.push(node)
-                            str += "<tr><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
+                            str += "<tr class='mytr'><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"</tr>"
                         }
                         edges.push(edge)
 
@@ -156,7 +164,8 @@
                     str += "</tbody></table>"
                     draw();
                     $("#result").html(str);
-                    $("#resulttitle").html(name+"的人际关系")
+                    $("#resulttitle").html(name+"的人际关系");
+                    var table = 
                     $('#mytable').DataTable({
                         "paging": true,
                         "iDisplayLength": 12, //默认每页数量
@@ -167,10 +176,60 @@
                         "bAutoWidth": true, //自动宽度
                         "bRetrieve": true,
                         "processing": true,
+                        //"ordering": false,
+                        "bSort": false,
                         //"serverSide" : true,//服务器端进行分页处理的意思
                         //"bPaginate": true,
                         //"bProcessing": true
                         columns : [{data : "id"},{data:"value"}],
+                    });
+                    $("#mytable tbody").on("mouseover","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        //console.log(data);//某一行中要是用的表头值
+                        //draw();
+                        //console.log("draw");
+
+                        //console.log(nodes);
+                        var nodeID = data['id'];
+                        var clickNode = nodeset.get(nodeID);
+                        //console.log(clickNode);
+                        clickNode.color = {
+                            border: '#2cad0c',
+                            background: '#7bd655',
+                            highlight: {
+                                border: '#2cad0c',
+                                background: '#7bd655'
+                            }
+                        }
+                        nodeset.update(clickNode);                
+
+                    });
+                    $("#mytable tbody").on("mouseout","tr",function()
+                    {//给tr或者td添加click事件
+                       // console.log("mouseout!");
+                        var data=table.row(this).data();//获取值的对象数据
+                        var nodeID = data['id'];
+                        var clickNode = nodeset.get(nodeID);
+                        clickNode.color = {
+                            border: '#2B7CE9',
+                            background: '#D2E5FF',
+                            highlight: {
+                                border: '#2cad0c',
+                                background: '#7bd655'
+                            }
+                        }
+                        nodeset.update(clickNode); 
+
+                    });
+                    $("#mytable tbody").on("click","tr",function()
+                    {//给tr或者td添加click事件
+                        //console.log("click!");
+                        var data=table.row(this).data();//获取值的对象数据
+                        var nodeID = data['id'];
+                        $("#pname").val(nodeID);
+                        $("#btn-commit").trigger("click");
+
                     });
                 })
             });
@@ -189,23 +248,47 @@
         function draw() 
         {
             var container = document.getElementById('mynetwork');
+            nodeset = new vis.DataSet(nodes)
             var data = {
-                nodes: nodes,
+                nodes: nodeset,
                 edges: edges
             };
             var options = {
                 nodes: {
-                shape: 'dot',
-                scaling:{
-                    label: {
-                    min:8,
-                    max:20
-                    }
-                }
-                }
+                    shape: 'dot',
+                    scaling:{
+                        label: {
+                        min:8,
+                        max:20
+                        }
+                    },
+                    color:{
+                        highlight: {//节点选中时状态颜色
+                            background: '#ec7171',
+                            border: '#f90909'
+                        },
+                    },
+                },
+                layout:{
+                    randomSeed:1,//配置每次生成的节点位置都一样，参数为数字1、2等
+                },
             };
             network = new vis.Network(container, data, options);
+
+            network.on("doubleClick", function(params) {//双击事件
+                if (params.nodes.length != 0) {//确定为节点双击事件
+                    var click_node_id = params.nodes[0];
+                    params.nodes[0]
+                    //remove_all_sub_nodes(click_node_id);
+                    //console.log(click_node_id);
+                    $("#pname").val(click_node_id);
+                    $("#btn-commit").trigger("click");
+                }
+             });
+
         }
+
+        
     </script>
 </body>
 </html>
