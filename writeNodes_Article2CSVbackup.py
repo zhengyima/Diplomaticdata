@@ -23,8 +23,9 @@ csize = cursor.count()
 pid = sys.argv[1]
 
 
-writer = csv.writer(file('b_dataallarticlenodes'+pid+'.csv', 'wb'))  # or datanodes-articles
+writer = csv.writer(file('b_dataallarticlenodes.csv', 'wb'))  # or datanodes-articles
 writer.writerow(['name', ':LABEL'])
+
 
 pid = int(pid)
 step  = int(csize/20)
@@ -33,12 +34,16 @@ start = 0+step*pid
 end = start +step
 print "start:"+str(start)
 print "end:"+str(end)
-#for articles in cursor:
-for i in range(start,end):
-    print i
-    articles = cursor[i]
-    #print "in"
+cursor.batch_size(1000)
+article = cursor[1000000]
+print article
+
+for articles in cursor:
+
     cnt += 1
+    if cnt<start:
+        continue
+    print "in"
     dict = {}
     #es = []
     if len(articles['paragraphs'])>0:
@@ -50,8 +55,8 @@ for i in range(start,end):
                             if(e['type'] == "Person"):
                                # writer.writerow([e['entity'], 'Person'])
                                 dict[e['entity']] = cnt;
-    #for j in dict:
-    #    writer.writerow([j, 'Person',cnt])
+    for i in dict:
+        writer.writerow([i, 'Person',cnt])
   #  if(cnt>100):
         #break
     if cnt % 3000 == 0:

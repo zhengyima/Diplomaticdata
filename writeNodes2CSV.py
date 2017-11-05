@@ -11,18 +11,34 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #test_graph.delete_all()
-conn = MongoClient('127.0.0.1', 27017)
-db = conn.Diplomaticdata
-db.authenticate("Diplomaticer", "77777")
-posts = db.EventNews
+conn = MongoClient('183.174.228.2', 38018)
+db = conn.cnnews2017
+#db.authenticate("Diplomaticer", "77777")
+posts = db.cnnews_index
 
-cursor =  posts.find({})
+cursor =  posts.find({},{"paragraphs.sentences.entities":1})
 cnt = 0
+cursor.batch_size(1000)
 
-writer = csv.writer(file('dataallnodes2.csv', 'wb'))
+
+
+csize = cursor.count()
+pid = sys.argv[1]
+
+
+writer = csv.writer(file('b_dataallnodes'+pid+'.csv', 'wb'))
 writer.writerow(['id:ID','name', ':LABEL'])
 
+pid = int(pid)
+step  = int(csize/20)
+start = 0+step*pid
+end = start +step
+print "start:"+str(start)
+print "end:"+str(end)
+
 dict = {}
+cursor.skip(start)
+print "skip"
 for articles in cursor:
     #es = []
     if len(articles['paragraphs'])>0:
@@ -35,6 +51,8 @@ for articles in cursor:
                                # writer.writerow([e['entity'], 'Person'])
                                 dict[e['entity']] = 1
     cnt += 1
+    print cnt
+    #print articles['_id']
   #  if(cnt>100):
         #break
     if cnt % 3000 == 0:

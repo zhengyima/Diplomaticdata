@@ -11,10 +11,10 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #test_graph.delete_all()
-conn = MongoClient('127.0.0.1', 27017)
-db = conn.Diplomaticdata
-db.authenticate("Diplomaticer", "77777")
-posts = db.EventNews
+conn = MongoClient('183.174.228.2', 38018)
+db = conn.cnnews2017
+#db.authenticate("Diplomaticer", "77777")
+posts = db.cnnews_index
 
 cursor =  posts.find({})
 cnt = 0
@@ -22,7 +22,7 @@ cnt = 0
 
 nodesi2n = []  #key:id value:name
 nodesn2i = {}  #key:name value:id
-csv_reader = csv.reader(open('CSV/dataallnodes.csv'))
+csv_reader = csv.reader(open('b_dataallnodes.csv'))
 for row in csv_reader:
     if cnt == 0:
         cnt+= 1
@@ -42,7 +42,7 @@ print nodesn2i["李国文"]
 
 cnt = 0
 nodes_articles = [] #i=1~244349
-csv_reader = csv.reader(open('CSV/datanodes-articles.csv'))
+csv_reader = csv.reader(open('b_dataallarticlenodes.csv'))
 for row in csv_reader:
     nodes_articles.append(row)
     cnt+=1
@@ -55,7 +55,7 @@ numofPerson = cnt - 1 #人的个数
 numofRel = 0
 rs = []
 keyys = []
-writer = csv.writer(file('CSV/rs4.csv', 'wb'))
+writer = csv.writer(file('b_rs4.csv', 'wb'))
 for i in range(1,cnt-1): #第一个人到倒数第二个人
     article_id = nodes_articles[i][2]
     j = i+1
