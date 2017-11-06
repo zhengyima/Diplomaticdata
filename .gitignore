@@ -102,6 +102,12 @@ ENV/
 # CSV
 CSV/*
 gcc/cmake-build-debug/CSV/*
-
+*.csv
+nodes_articleCSV/*
+noderel/*
+last/*
+nodes_articleCSV/*
+nodes_CSV/*
+norsout_CSV/*
 
 .idea/

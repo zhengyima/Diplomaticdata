@@ -145,6 +145,7 @@
                     mr = 0
                 }
                 $.get("http://183.174.228.21:1241/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
+                    console.log(ret)
                     str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped table-hover ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th><th>时事探针</th></thead><tbody>";
                     if(ret.length==0){
                         alert("没有找到这个人的信息，输一个我知道的人吧！");

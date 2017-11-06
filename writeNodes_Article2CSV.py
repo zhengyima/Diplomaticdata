@@ -28,18 +28,34 @@ writer.writerow(['name', ':LABEL'])
 
 pid = int(pid)
 step  = int(csize/20)
-print step
 start = 0+step*pid
 end = start +step
 print "start:"+str(start)
 print "end:"+str(end)
-#for articles in cursor:
-for i in range(start,end):
-    print i
-    articles = cursor[i]
+
+start1 = 17952154+(3556217/20)*pid
+end1 = start1 + (3556217/20)
+
+dict = {}
+#cursor.skip(start)
+print "skip"
+print start1
+print end1
+ss1 = str(start1)
+ss1 = "00000000"+ss1
+ss2 = str(end1)
+ss2 = "00000000"+ss2
+
+cursor = posts.find({"_id":{"$gte":ss1,"$lt":ss2}},{"paragraphs.sentences.entities": 1})
+cursor.batch_size(10000)
+print cursor.count()
+
+cnt = (3556217/20)*pid
+for articles in cursor:
     #print "in"
     cnt += 1
     dict = {}
+    print cnt
     #es = []
     if len(articles['paragraphs'])>0:
         for paragraph in articles['paragraphs']:
@@ -50,8 +66,8 @@ for i in range(start,end):
                             if(e['type'] == "Person"):
                                # writer.writerow([e['entity'], 'Person'])
                                 dict[e['entity']] = cnt;
-    #for j in dict:
-    #    writer.writerow([j, 'Person',cnt])
+    for j in dict:
+        writer.writerow([j, 'Person',cnt])
   #  if(cnt>100):
         #break
     if cnt % 3000 == 0:

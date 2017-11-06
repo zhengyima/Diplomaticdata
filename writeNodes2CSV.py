@@ -18,7 +18,7 @@ posts = db.cnnews_index
 
 cursor =  posts.find({},{"paragraphs.sentences.entities":1})
 cnt = 0
-cursor.batch_size(1000)
+cursor.batch_size(10000)
 
 
 
@@ -26,7 +26,7 @@ csize = cursor.count()
 pid = sys.argv[1]
 
 
-writer = csv.writer(file('b_dataallnodes'+pid+'.csv', 'wb'))
+writer = csv.writer(file('b_dataallnodess'+pid+'.csv', 'wb'))
 writer.writerow(['id:ID','name', ':LABEL'])
 
 pid = int(pid)
@@ -36,11 +36,30 @@ end = start +step
 print "start:"+str(start)
 print "end:"+str(end)
 
+start1 = 17952154+(3556217/20)*pid
+end1 = start1 + (3556217/20)
+
 dict = {}
-cursor.skip(start)
+#cursor.skip(start)
 print "skip"
+print start1
+print end1
+ss1 = str(start1)
+ss1 = "00000000"+ss1
+ss2 = str(end1)
+ss2 = "00000000"+ss2
+
+cursor = posts.find({"_id":{"$gte":ss1,"$lt":ss2}},{"paragraphs.sentences.entities": 1})
+cursor.batch_size(10000)
+print cursor.count()
 for articles in cursor:
     #es = []
+
+    #sid = str(i)
+    #sid = "00000000"+sid
+    #cursor = posts.find({"_id":sid}, {"paragraphs.sentences.entities": 1})
+    #if cursor.count() == 0:
+    #   continue
     if len(articles['paragraphs'])>0:
         for paragraph in articles['paragraphs']:
             if len(paragraph['sentences'])>0:
@@ -51,10 +70,11 @@ for articles in cursor:
                                # writer.writerow([e['entity'], 'Person'])
                                 dict[e['entity']] = 1
     cnt += 1
-    print cnt
+    #print cnt
     #print articles['_id']
   #  if(cnt>100):
         #break
+    print cnt
     if cnt % 3000 == 0:
         print cnt/3000
 

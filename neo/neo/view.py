@@ -38,6 +38,25 @@ def find_near(request):
 
     data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) return r.value, "
                            "n.name,end.name order by r.value desc limit " +maxn ,str=a)
+    #
+    '''
+    for dataitem in data:
+        for dataitem2 in data:
+            if (dataitem['n.name'] == dataitem2['end.name'] and dataitem['end.name']==dataitem2['n.name']) or \
+                    (dataitem['n.name'] == dataitem2['n.name'] and dataitem['end.name']==dataitem2['end.name']):
+                dataitem['r.value'] += dataitem2['r.value']
+                data.remove(dataitem2)
+                break
+
+    '''
+    for i in range(0,len(data)):
+        for j in range(i+1,len(data)):
+            if (data[i]['n.name'] == data[j]['end.name'] and data[i]['end.name'] == data[j]['n.name']) or \
+                    (data[i]['n.name'] == data[j]['n.name'] and data[i]['end.name'] == data[j]['end.name']):
+                data[i]['r.value'] += data[j]['r.value']
+                data.remove(data[j])
+                break
+    #
     if(request.GET['mr'] == "1"):
         response = HttpResponse(json.dumps(data), content_type="application/json")
         response["Access-Control-Allow-Origin"] = "*"
@@ -109,7 +128,7 @@ def find_path(request):
     #return render(request,'path.html')
     fperson = request.GET['fname']
     tperson = request.GET['tname']
-    data = test_graph.run("Match(p1:Person{name:{fp}}),(p2:Person{name:{tp}}),p=allshortestpaths((p1)-[*..10]-(p2)) "
+    data = test_graph.run("Match(p1:Person{name:{fp}}),(p2:Person{name:{tp}}),p=allshortestpaths((p1)-[*..10]->(p2)) "
                                     "return p",fp=fperson,tp=tperson);
     nodes_total = []
     rels_total = []
