@@ -1,50 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>六度搜索</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-    <style type="text/css">
-        html, body {
-            font: 10pt arial;
-        }
-        #mynetwork {
-            width: 600px;
-            height: 600px;
-            border: 1px solid lightgray;
-        }
-        #mytable td{
-            padding:10px 18px
-        }
-        #mytable tbody tr:hover {  
-        background-color: #0180FE;  
-        color: #fff;  
-        cursor:pointer;  
-        }
-    </style>
-    <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="static/dist/vis.js"></script>
-    <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-    <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
-    <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
-    <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
-    <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
-    <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
-    <link  href="static/css/slider.css" rel="stylesheet">
-    <link  href="static/css/jquery.dataTables.min.css" rel="stylesheet">
+        <title>六度搜索</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="static/dist/vis.js"></script>
+        <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
+        <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
+        <link href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+        <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+        <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
+        <link  href="static/css/slider.css" rel="stylesheet">
+        <link  href="static/css/jquery.dataTables.min.css" rel="stylesheet">
+        <style type="text/css">
+            html, body {
+                font: 10pt arial;
+            }
+            #mynetwork {
+                width: 600px;
+                height: 600px;
+                border: 1px solid lightgray;
+            }
+            #path-network {
+                width: 600px;
+                height: 200px;
+                border: 1px solid lightgray;
+            }
+
+            #mytable td{
+                padding:10px 18px
+            }
+            #mytable tbody tr:hover {
+                background-color: #0180FE;
+                color: #fff;
+                cursor:pointer;
+            }
+            em{
+                color:red;
+            }
+        </style>
 </head>
 
 <body onload="draw()">
     <div class="row">
 		<div class="span6">
 			<ul class="nav nav-tabs" style="margin-left:1%;">
-				<li><a href="near.html?name=李克强">人际关系查询</a> </li>
+				<li><a href="near.html?name=窦志成">人际关系查询</a> </li>
 				<li class="active"><a href="path.html">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
     <hr>
-    <div id="main-container" class="container" style="margin-left: 0;margin-top:0;padding-left:0">
+    <div id="main-container" class="container" style="margin-left: 0;margin-top:0;padding-left:0;width:100%;">
         <div class="row">
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
@@ -66,7 +76,16 @@
                         </form>
                     </div>
                     <div class="panel-body">
-                        <div id="mynetwork" style="width:100%;"></div>
+                        <div id="mynetwork" style="width:100%;">
+
+                        </div>
+                        <div class="popover right" role="tooltip" style="max-width:50%" id="mypopever">
+                                <div class="arrow" style="top: 30px"></div>
+                                <div class="popover-inner">
+                                    <div class="popover-title">My Title</div>
+                                    <div id="systemInfo" class="popover-content"></div>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,6 +97,25 @@
                     <div class="panel-body" style="" id="resultbody">
                         <div id="result">
                             <h3><span id="resulttitle">搜索结果</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <div id="path-network" style="width:100%"></div>
+                        <div class="popover right" role="tooltip" style="max-width:50%" id="mypopever2">
+                                <div class="arrow" style="top: 30px" id="arrow2"></div>
+                                <div class="popover-inner" id="pinner2">
+                                    <div class="popover-title" id="ptitle2">My Title</div>
+                                    <div class="popover-content" id="pcontent2"></div>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -96,13 +134,44 @@
 		    return 'Current value: ' + value;
 	        }
         });
-
         var nodes = [];
         var edgeset;
         var edges = [];
         var network = null;
+        var tinynodes = [];
+        var tinyedgeset= [];
+        var tinyedges = [];
+        var tinynetwork = null;
+        $(window).resize(function() {
+            network.fit();
+            tinynetwork.fit();
+        });
+        $(document).bind('keypress',function(e){
+            if(e.keyCode==13){
+                $("#btn-commit").trigger("click");
+            }
+        })
+        $('body').on('click', function(event) {
+            var target = $(event.target); // One jQuery object instead of 3
+
+            // Compare length with an integer rather than with
+            if (!target.hasClass('popover')
+                && target.parent('.popover-content').length === 0
+                && target.parent('.myPopover').length === 0
+                && target.parent('.popover-title').length === 0
+                && target.parent('.popover').length === 0 && target.attr("id") !== "folder") {
+                console.log("a");
+                    $('#mypopever').hide();
+                    $('#mypopever2').hide();
+                }
+        });
         $(document).ready(function(){
+
             $("#btn-commit").click(function(){
+                $(this).button("loading");
+                var lohtml = "<div class='progress progress-striped active' style='margin-top:40%'><div class='progress-bar progress-bar-success' role='progressbar'aria-valuenow='60' aria-valuemin='0' aria-valuemax='100'style='width: 40%;'> <span class='sr-only'>40% 完成</span> </div> <div>"
+                //lohtml = "html";
+                $("#mynetwork").html(lohtml);
                 nodes = [];
                 edges = [];
                 network = [];
@@ -111,19 +180,23 @@
                 var tname = $("#tname").val();
                 if(fname==""&&tname!=""){
                     location.href="near.html?name="+tname;
+                    $(this).button('reset');
                     return ;
                 }
                 else if(fname!=""&&tname==""){
                     location.href="near.html?name="+fname;
+                    $(this).button('reset');
                     return ;
                 }
                 else if(fname==""&&tname==""){
                     alert("请输入两个人的姓名！");
+                    $(this).button('reset');
                     return ;
                 }
                 $("#resulttitle").html(fname+"到"+tname+"的路径查询")
+                var that = $(this);
                 $.get("http://183.174.228.21:1241/find_path",{'fname':fname,'tname':tname}, function(ret){
-                   // console.log(ret);
+                    console.log(ret);
                     str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped' style='width:100%' id='mytable'><thead><th>路径</th><th>pid</th></thead><tbody>";
                     t_nodes = ret[0];
                     t_rels = ret[1];
@@ -131,6 +204,7 @@
                      $("#resulttitle").html("in")
                     if(t_paths.length==0){
                         alert("没找到这条联系哟，是不是输错名字了？");
+                        that.button("reset");
                         return ;
                     }
                     for(var i in t_nodes){
@@ -147,17 +221,21 @@
                     for(var i in t_paths){
                         path = ""
                         for(var j in t_paths[i]['path']){
-                            if(i==0){
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
+                            id1 = t_paths[i]['path'][j]['start_node']+"&"+t_paths[i]['path'][j]['end_node']
+                            id2 = t_paths[i]['path'][j]['end_node']+"&"+t_paths[i]['path'][j]['start_node']
+                            exist = 0;
+                            for(var k in edges){
+                                if(edges[k]['id'] == id1 || edges[k]['id'] == id2){
+                                    exist = 1;break;
+                                }
                             }
-                            else{
+                            if(!exist)
+                            edges.push({id:t_paths[i]['path'][j]['start_node']+"&"+t_paths[i]['path'][j]['end_node'],from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
 
-                                edges.push({from:t_paths[i]['path'][j]['start_node'],to:t_paths[i]['path'][j]['end_node'],value:t_paths[i]['path'][j]['val'],title:t_paths[i]['path'][j]['val'],pid:i});
-                            }
                             path += t_paths[i]['path'][j]['start_node'] + '--' + t_paths[i]['path'][j]['val'] + '--'
                         }
                         path += tname
-                        str += "<tr><td>"+path+"</td><td>"+i+"</td></tr>"
+                        str += "<tr pid="+i+"><td>"+path+"</td><td>"+i+"</td></tr>"
                     }
                     str+='</tbody></table>'
                     $("#result").html(str);
@@ -165,7 +243,7 @@
                     var table=
                     $('#mytable').DataTable({
                         "paging": true,
-                        "iDisplayLength": 8, //默认每页数量
+                        "iDisplayLength": 12, //默认每页数量
                         "bPaginate": true, //翻页功能
                         "bLengthChange": false, //改变每页显示数据数量
                         "bFilter": false, //过滤功能
@@ -175,6 +253,30 @@
                         "processing": true,
                         "ordering": false,
                         "bSort": false,
+                        language: {
+                            "sProcessing": "处理中...",
+                              "sLengthMenu": "显示 _MENU_ 项结果",
+                              "sZeroRecords": "没有匹配结果",
+                              "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                              "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                              "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                              "sInfoPostFix": "",
+                              "sSearch": "搜索:",
+                              "sUrl": "",
+                              "sEmptyTable": "表中数据为空",
+                              "sLoadingRecords": "载入中...",
+                              "sInfoThousands": ",",
+                              "oPaginate": {
+                                  "sFirst": "首页",
+                                  "sPrevious": "上页",
+                                  "sNext": "下页",
+                                  "sLast": "末页"
+                              },
+                              "oAria": {
+                                  "sSortAscending": ": 以升序排列此列",
+                                  "sSortDescending": ": 以降序排列此列"
+                              }
+                          },
                         //"serverSide" : true,//服务器端进行分页处理的意思
                         //"bPaginate": true,
                         //"bProcessing": true
@@ -188,67 +290,83 @@
 
                     });
                     draw();
+                    that.button("reset");
                     $("#mytable tbody").on("mouseover","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
                         //console.log(data);//某一行中要是用的表头值
                         //console.log("draw");
-
+                        for(var j in t_paths[data['pid']]['path']){
+                            sname = t_paths[data['pid']]['path'][j]['start_node'];
+                            ename = t_paths[data['pid']]['path'][j]['end_node'];
+                            var items =edgeset.get({
+                                filter: function (item) {
+                                return ((item.from == sname && item.to == ename)||(item.from == sname && item.to == sname));
+                                }
+                            });
+                            //console.log(items);
+                            for(i=0;i<items.length;i++) {
+                                items[i].color = {
+                                    color: "#ff0000"
+                                }
+                                edgeset.update(items[i]);
+                            }
+                        }
                         //console.log(t_paths[data['pid']]);
-                        var items =edgeset.get({
+                        /*var items =edgeset.get({
                             filter: function (item) {
                             return item.pid == data['pid'];
                             }
                         });
-                        //console.log(items);
                         for(i=0;i<items.length;i++){
                             items[i].color={
                                 color:"#ff0000"
                             }
                             edgeset.update(items[i]);
-                        }
+                        }*/
                     });
                     $("#mytable tbody").on("mouseout","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
                         //console.log(data);//某一行中要是用的表头值
                         //console.log("draw");
-
-                        //console.log(t_paths[data['pid']]);
-                        var items =edgeset.get({
-                            filter: function (item) {
-                            return item.pid == data['pid'];
+                        for(var j in t_paths[data['pid']]['path']) {
+                            sname = t_paths[data['pid']]['path'][j]['start_node'];
+                            ename = t_paths[data['pid']]['path'][j]['end_node'];
+                            var items = edgeset.get({
+                                filter: function (item) {
+                                    return ((item.from == sname && item.to == ename) || (item.from == sname && item.to == sname));
+                                }
+                            });
+                            //console.log(items);
+                            for (i = 0; i < items.length; i++) {
+                                items[i].color = {
+                                    color: "#2b7ce9"
+                                }
+                                edgeset.update(items[i]);
                             }
-                        });
-                        //console.log(items);
-                        for(i=0;i<items.length;i++){
-                            items[i].color={
-                                color:"#2B7CE9"
-                            }
-                            edgeset.update(items[i]);
                         }
-                    });/*
+                    });
                     $("#mytable tbody").on("click","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
                         //console.log(data);//某一行中要是用的表头值
                         //console.log("draw");
-
-                        //console.log(t_paths[data['pid']]);
-                        var items =edgeset.get({
-                            filter: function (item) {
-                            return item.pid != data['pid'];
-                            }
-                        });
-                        //console.log(items);
-                        for(i=0;i<items.length;i++){
-                            //items[i].color={
-                              //  color:"#ffffff"
-                            //}
-                            items[i].hidden=true;
-                            edgeset.update(items[i]);
+                        console.log(data['pid']);
+                        tinynodes= [];
+                        tinyedges = [];
+                        tinypath = t_paths[data['pid']]['path'];
+                        tinynodes.push({id:tinypath[0]['start_node'],label:tinypath[0]['start_node'],x:100});
+                        xx = 200;
+                        for(var i in tinypath){
+                            console.log("an edge!");
+                            tinynodes.push({id:tinypath[i]['end_node'],label:tinypath[i]['end_node'],x:xx});
+                            xx += 1000
+                            tinyedges.push({id:tinypath[i]['start_node']+"&"+tinypath[i]['end_node'],from:tinypath[i]['start_node'],to:tinypath[i]['end_node'],value:tinypath[i]['val'],title:tinypath[i]['val'],pid:i});
                         }
-                    });*/
+                        drawtiny();
+                        $("html,body").animate({scrollTop:$("#path-network").offset().top},1000);
+                    });
                 })
             });
             /* 处理页面参数 */
@@ -266,14 +384,14 @@
                     }
                     else{
                         $("#fname").val("扎克伯格");
-                        $("#tname").val("卡扎菲");
+                        $("#tname").val("文继荣");
                         $('#btn-commit').trigger("click");
                     }
                 }
             }
             else{
                 $("#fname").val("扎克伯格");
-                $("#tname").val("卡扎菲");
+                $("#tname").val("文继荣");
                 $('#btn-commit').trigger("click");
             }
         });
@@ -307,7 +425,110 @@
                 },
             };
             network = new vis.Network(container, data, options);
+            network.on("doubleClick", function(params) {//双击事
+                if(params.edges.length != 0){
+                    var click_edge_id = params.edges[0];
+                    console.log(click_edge_id);
+                    edge2names = click_edge_id.split("&");
+                    //window.open("http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(edge2names[0])+"+"+encodeURIComponent(edge2names[1])+"&t=")
+
+                    $.get("http://183.174.228.21:1241/getEdgeinfo",{sname:edge2names[0],tname:edge2names[1]},function(data){
+                         $('.popover-content').html("");
+                        console.log(data);
+                        $('.popover').show();
+                        var x = params.pointer.DOM.x;
+                        var y = params.pointer.DOM.y;
+                        $('.popover-title').html(edge2names[0]+"与"+edge2names[1]);
+
+                        if(data.length==0){
+                             $('.popover-content').html("未查询到相关信息");
+                            $('.popover').css('left', (x + 10) + 'px');
+                            $('.popover').css('top', (y - 20) + 'px');
+                            return ;
+                        }
+                        var str = ""
+                        for(var iter=0;iter<data.length;iter++){
+                            str+= "新闻"+(iter+1)+"：</br>";
+                            str+= "  时间："+data[iter]['TimeStr']+"</br>";
+                            str+="内容："+data[iter]['Text']+"</br>"+"-------------------</br>"
+                        }
+
+                        $('.popover-content').html(str);
+                        $('.popover').css('left', (x + 10) + 'px');
+                        $('.popover').css('top', (y - 20) + 'px');
+                    })
+                }
+
+             });
+
             
+        }
+        function drawtiny(){
+            var container = document.getElementById('path-network');
+            tinyedgeset = new vis.DataSet(edges)
+            var data = {
+            nodes: tinynodes,
+            edges: tinyedges
+            };
+            var options = {
+                nodes: {
+                    shape: 'dot',
+                    scaling:{
+                        label: {
+                        min:8,
+                        max:20
+                        }
+                    },
+                    color:{
+                        highlight: {//节点选中时状态颜色
+                            background: '#ec7171',
+                            border: '#f90909'
+                        },
+                    },
+                    font:{
+                        size:40
+                    },
+                    size:50
+                },
+
+                layout:{
+                    randomSeed:1,//配置每次生成的节点位置都一样，参数为数字1、2等
+                },
+            };
+            tinynetwork = new vis.Network(container, data, options);
+            tinynetwork.on("doubleClick", function(params) {//双击事
+                if(params.edges.length != 0){
+                    var click_edge_id = params.edges[0];
+                    console.log(click_edge_id);
+                    edge2names = click_edge_id.split("&");
+                    //window.open("http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(edge2names[0])+"+"+encodeURIComponent(edge2names[1])+"&t=")
+
+                    $.get("http://183.174.228.21:1241/getEdgeinfo",{sname:edge2names[0],tname:edge2names[1]},function(data){
+                         $('#pcontent2').html("");
+                        console.log(data);
+                        $('#mypopever2').show();
+                        var x = params.pointer.DOM.x;
+                        var y = params.pointer.DOM.y;
+                        $('#ptitle2').html(edge2names[0]+"与"+edge2names[1]);
+
+                        if(data.length==0){
+                             $('#pcontent2').html("未查询到相关信息");
+                            $('#mypopever2').css('left', (x + 10) + 'px');
+                            $('#mypopever2').css('top', (y - 20) + 'px');
+                            return ;
+                        }
+                        var str = ""
+                        for(var iter=0;iter<data.length;iter++){
+                            str+= "新闻"+(iter+1)+"：</br>";
+                            str+= "  时间："+data[iter]['TimeStr']+"</br>";
+                            str+="内容："+data[iter]['Text']+"</br>"+"-------------------</br>"
+                        }
+                        $('#pcontent2').html(str);
+                        $('#mypopever2').css('left', (x + 10) + 'px');
+                        $('#mypopever2').css('top', (y - 20) + 'px');
+                    })
+                }
+             });
         }
   </script>
 </body>

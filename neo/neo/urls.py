@@ -15,5 +15,8 @@ urlpatterns = [
     url(r'^find_near',view.find_near),
     url(r'^path',view.path),
     url(r'^find_path',view.find_path),
+    url(r'^is_friends', view.is_friends),
+    url(r'^is_entity', view.is_entity),
+    url(r'^getEdgeinfo',view.getEdgeinfo),
     url(r'^$',view.near)
 ]
