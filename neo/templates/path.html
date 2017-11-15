@@ -295,8 +295,6 @@
                     $("#mytable tbody").on("mouseover","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
-                        //console.log(data);//某一行中要是用的表头值
-                        //console.log("draw");
                         for(var j in t_paths[data['pid']]['path']){
                             sname = t_paths[data['pid']]['path'][j]['start_node'];
                             ename = t_paths[data['pid']]['path'][j]['end_node'];
@@ -313,24 +311,10 @@
                                 edgeset.update(items[i]);
                             }
                         }
-                        //console.log(t_paths[data['pid']]);
-                        /*var items =edgeset.get({
-                            filter: function (item) {
-                            return item.pid == data['pid'];
-                            }
-                        });
-                        for(i=0;i<items.length;i++){
-                            items[i].color={
-                                color:"#ff0000"
-                            }
-                            edgeset.update(items[i]);
-                        }*/
                     });
                     $("#mytable tbody").on("mouseout","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
-                        //console.log(data);//某一行中要是用的表头值
-                        //console.log("draw");
                         for(var j in t_paths[data['pid']]['path']) {
                             sname = t_paths[data['pid']]['path'][j]['start_node'];
                             ename = t_paths[data['pid']]['path'][j]['end_node'];
@@ -339,7 +323,6 @@
                                     return ((item.from == sname && item.to == ename) || (item.from == sname && item.to == sname));
                                 }
                             });
-                            //console.log(items);
                             for (i = 0; i < items.length; i++) {
                                 items[i].color = {
                                     color: "#2b7ce9"
@@ -351,8 +334,6 @@
                     $("#mytable tbody").on("click","tr",function()
                     {//给tr或者td添加click事件
                         var data=table.row(this).data();//获取值的对象数据
-                        //console.log(data);//某一行中要是用的表头值
-                        //console.log("draw");
                         console.log(data['pid']);
                         tinynodes= [];
                         tinyedges = [];
@@ -420,7 +401,6 @@
                         },
                     }
                 },
-
                 layout:{
                     randomSeed:1,//配置每次生成的节点位置都一样，参数为数字1、2等
                 },
@@ -431,8 +411,6 @@
                     var click_edge_id = params.edges[0];
                     console.log(click_edge_id);
                     edge2names = click_edge_id.split("&");
-                    //window.open("http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(edge2names[0])+"+"+encodeURIComponent(edge2names[1])+"&t=")
-
                     $.get("http://183.174.228.21:1241/getEdgeinfo",{sname:edge2names[0],tname:edge2names[1]},function(data){
                          $('#pcontent1').html("");
                         console.log(data);
@@ -459,10 +437,7 @@
                         $('#mypopever1').css('top', (y - 20) + 'px');
                     })
                 }
-
              });
-
-            
         }
         function drawtiny(){
             var container = document.getElementById('path-network');
@@ -502,8 +477,6 @@
                     var click_edge_id = params.edges[0];
                     console.log(click_edge_id);
                     edge2names = click_edge_id.split("&");
-                    //window.open("http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(edge2names[0])+"+"+encodeURIComponent(edge2names[1])+"&t=")
-
                     $.get("http://183.174.228.21:1241/getEdgeinfo",{sname:edge2names[0],tname:edge2names[1]},function(data){
                          $('#pcontent2').html("");
                         console.log(data);
@@ -511,7 +484,6 @@
                         var x = params.pointer.DOM.x;
                         var y = params.pointer.DOM.y;
                         $('#ptitle2').html(edge2names[0]+"与"+edge2names[1]);
-
                         if(data.length==0){
                              $('#pcontent2').html("未查询到相关信息");
                             $('#mypopever2').css('left', (x + 10) + 'px');
