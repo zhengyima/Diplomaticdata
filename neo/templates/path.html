@@ -83,7 +83,7 @@
                                 <div class="arrow" style="top: 30px" id="arrow1"></div>
                                 <div class="popover-inner"  id="pinner1">
                                     <div class="popover-title" id="ptitle1">My Title</div>
-                                    <div id="systemInfo" class="popover-content" id="pcontent1"></div>
+                                    <div class="popover-content" id="pcontent1"></div>
                                 </div>
                         </div>
                     </div>
@@ -157,7 +157,8 @@
             // Compare length with an integer rather than with
             if (!target.hasClass('popover')
                 && target.parent('.popover-content').length === 0
-                && target.parent('.myPopover').length === 0
+                && target.parent('#mypopever1').length === 0
+                && target.parent('#mypopever2').length === 0
                 && target.parent('.popover-title').length === 0
                 && target.parent('.popover').length === 0 && target.attr("id") !== "folder") {
                 console.log("a");
@@ -433,17 +434,17 @@
                     //window.open("http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(edge2names[0])+"+"+encodeURIComponent(edge2names[1])+"&t=")
 
                     $.get("http://183.174.228.21:1241/getEdgeinfo",{sname:edge2names[0],tname:edge2names[1]},function(data){
-                         $('.popover-content').html("");
+                         $('#pcontent1').html("");
                         console.log(data);
-                        $('.popover').show();
+                        $('#mypopever1').show();
                         var x = params.pointer.DOM.x;
                         var y = params.pointer.DOM.y;
                         $('.popover-title').html(edge2names[0]+"与"+edge2names[1]);
 
                         if(data.length==0){
-                             $('.popover-content').html("未查询到相关信息");
-                            $('.popover').css('left', (x + 10) + 'px');
-                            $('.popover').css('top', (y - 20) + 'px');
+                             $('#pcontent1').html("未查询到相关信息");
+                            $('#mypopever1').css('left', (x + 10) + 'px');
+                            $('#mypopever1').css('top', (y - 20) + 'px');
                             return ;
                         }
                         var str = ""
@@ -452,10 +453,10 @@
                             str+= "  时间："+data[iter]['TimeStr']+"</br>";
                             str+="内容："+data[iter]['Text']+"</br>"+"-------------------</br>"
                         }
-
-                        $('.popover-content').html(str);
-                        $('.popover').css('left', (x + 10) + 'px');
-                        $('.popover').css('top', (y - 20) + 'px');
+                        console.log("str = "+str);
+                        $('#pcontent1').html(str);
+                        $('#mypopever1').css('left', (x + 10) + 'px');
+                        $('#mypopever1').css('top', (y - 20) + 'px');
                     })
                 }
 
