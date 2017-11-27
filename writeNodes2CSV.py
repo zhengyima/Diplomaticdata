@@ -52,6 +52,8 @@ ss2 = "00000000"+ss2
 cursor = posts.find({"_id":{"$gte":ss1,"$lt":ss2}},{"paragraphs.sentences.entities": 1})
 cursor.batch_size(10000)
 print cursor.count()
+cnt = 0
+bcnt = 0
 for articles in cursor:
     #es = []
 
@@ -68,7 +70,20 @@ for articles in cursor:
                         for e in sentence['entities']:
                             if(e['type'] == "Person"):
                                # writer.writerow([e['entity'], 'Person'])
-                                dict[e['entity']] = 1
+                                #dict[e['entity']] = 1
+                               bcnt += 1
+                               person = ''
+                               location = ''
+                               organizition = ''
+                               for ee in sentence['entities']:
+                                if ee['type'] == 'Location':
+                                       location += ee['entity']+' '
+                                if ee['type'] == 'Organization':
+                                        organizition += ee['entity']+' '
+                                if ee['type'] == 'Person' and ee['entity'] != e['entity']:
+                                    person+=e['entity']+' '
+                               writer.writerow([bcnt, ee['entity'], 'Person',person,location,organizition])
+
     cnt += 1
     #print cnt
     #print articles['_id']
@@ -78,6 +93,9 @@ for articles in cursor:
     if cnt % 3000 == 0:
         print cnt/3000
 
+
+
+'''
 cnt = 0
 for i in dict:
     cnt += 1
@@ -89,5 +107,6 @@ for i in dict:
     cnt += 1
     if cnt % 1000 == 0:
         print cnt/1000
+'''
 
 
