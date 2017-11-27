@@ -38,6 +38,7 @@ print "end:"+str(end)
 
 start1 = 17952154+(3556217/20)*pid
 end1 = start1 + (3556217/20)
+#end1 = start1+20000
 
 dict = {}
 #cursor.skip(start)
@@ -62,27 +63,28 @@ for articles in cursor:
     #cursor = posts.find({"_id":sid}, {"paragraphs.sentences.entities": 1})
     #if cursor.count() == 0:
     #   continue
+    dict = {}
     if len(articles['paragraphs'])>0:
         for paragraph in articles['paragraphs']:
             if len(paragraph['sentences'])>0:
                 for sentence in paragraph['sentences']:
                     if len(sentence['entities'])>0:
                         for e in sentence['entities']:
-                            if(e['type'] == "Person"):
+                            if(e['type'] == "Person") and (not dict.has_key(e['entity'])):
                                # writer.writerow([e['entity'], 'Person'])
-                                #dict[e['entity']] = 1
-                               bcnt += 1
+                               dict[e['entity']] = 1
                                person = ''
                                location = ''
                                organizition = ''
                                for ee in sentence['entities']:
-                                if ee['type'] == 'Location':
+                                if ee['type'] == 'Location' and location.find(ee['entity'])==-1:
                                        location += ee['entity']+' '
-                                if ee['type'] == 'Organization':
+                                if ee['type'] == 'Organization'and organizition.find(ee['entity'])==-1:
                                         organizition += ee['entity']+' '
-                                if ee['type'] == 'Person' and ee['entity'] != e['entity']:
-                                    person+=e['entity']+' '
-                               writer.writerow([bcnt, ee['entity'], 'Person',person,location,organizition])
+                                if ee['type'] == 'Person' and ee['entity'] != e['entity'] and person.find(ee['entity'])==-1:
+                                    person+=ee['entity']+' '
+                               writer.writerow([bcnt, e['entity'], 'Person',cnt,person,location,organizition])
+                               bcnt += 1
 
     cnt += 1
     #print cnt
