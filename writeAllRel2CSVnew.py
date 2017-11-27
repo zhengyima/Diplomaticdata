@@ -19,20 +19,18 @@ posts = db.cnnews_index
 cursor =  posts.find({})
 cnt = 0
 
+pid = sys.argv[1]
+pid = int(pid)
+
 nodesi2n = []  #key:id value:name
 nodesn2i = {}  #key:name value:id
-csv_reader = csv.reader(open('bn.csv'))
+csv_reader = csv.reader(open('nodes2.csv'))
 for row in csv_reader:
-    if cnt == 0:
-        cnt+= 1
-        continue
-    if(cnt + 2 > 505041):
-        break
     #node = [];
     #node.append(cnt-1)
     #node.append(row[0])
     nodesi2n.append(row[1])
-    nodesn2i[row[1]] = cnt -1
+    nodesn2i[row[1]+"^^^"+row[3]] = cnt -1
     #print row[0]
     cnt += 1
 
@@ -53,8 +51,8 @@ numofPerson = cnt - 1 #人的个数
 numofRel = 0
 rs = []
 keyys = []
-writer = csv.writer(file('b_rs462.csv', 'wb'))
-for i in range(3745883,7*(cnt-1)/10): #第一个人到倒数第二个人
+writer = csv.writer(file('b_rsp'+str(pid)+'.csv', 'wb'))
+for i in range(pid*(cnt-1)/30,(pid+1)*(cnt-1)/30): #第一个人到倒数第二个人
     article_id = nodes_articles[i][2]
     j = i+1
     while j <= cnt-1 and nodes_articles[j][2] == article_id :
@@ -63,7 +61,7 @@ for i in range(3745883,7*(cnt-1)/10): #第一个人到倒数第二个人
         numofRel += 1
         #print nodesn2i[nodes_articles[i][0]]
         #print nodesn2i[nodes_articles[j][0]]
-        row = [nodesn2i[nodes_articles[i][0]],1,nodesn2i[nodes_articles[j][0]],"CALL"]
+        row = [nodesn2i[nodes_articles[i][0] + "^^^" + str(int(nodes_articles[i][2])-1) ],1,nodesn2i[nodes_articles[j][0] + "^^^" + str(int(nodes_articles[j][2])-1)],"CALL"]
         writer.writerow(row)
         #rs.append(row)
         j += 1

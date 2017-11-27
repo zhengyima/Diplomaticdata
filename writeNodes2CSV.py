@@ -27,7 +27,7 @@ pid = sys.argv[1]
 
 
 writer = csv.writer(file('b_dataallnodess'+pid+'.csv', 'wb'))
-writer.writerow(['id:ID','name', ':LABEL'])
+#writer.writerow(['id:ID','name', ':LABEL'])
 
 pid = int(pid)
 step  = int(csize/20)
@@ -64,6 +64,7 @@ for articles in cursor:
     #if cursor.count() == 0:
     #   continue
     dict = {}
+
     if len(articles['paragraphs'])>0:
         for paragraph in articles['paragraphs']:
             if len(paragraph['sentences'])>0:
