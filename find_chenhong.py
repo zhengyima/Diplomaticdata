@@ -61,7 +61,7 @@ test_graph = Graph(
     password="77777"
 )
 data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person)"
-                       " return r.value,end.name,end.id ", str="陈红")
+                       " return n.id,r.value,end.name,end.id ", str="陈红")
 cnt = 0
 for dataitem in data:
     #dataitem['end.name'].decode('utf-8')
@@ -80,6 +80,10 @@ for dataitem in data:
         f_t[dataitem['end.name'].encode('utf-8')],str2=dataitem['end.name'],val=dataitem['r.value'])
     cnt += 1
     print cnt
+
+#delmodel = test_graph.run("Match (n:Person{id: {str}})-[r:CALL]-()"
+            #           " delete n,r ", str=data[0]['id'])
+
 
 
 
