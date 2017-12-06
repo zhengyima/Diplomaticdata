@@ -39,7 +39,7 @@ def find_near(request):
 
 
     data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) return r.value, "
-                           "n.name,end.name order by r.value desc limit " +maxn ,str=a)
+                           "n.name,end.name,n.tid order by r.value desc limit " +maxn ,str=a)
     #
     '''
     for dataitem in data:
