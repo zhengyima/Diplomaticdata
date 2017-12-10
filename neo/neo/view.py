@@ -24,6 +24,9 @@ test_graph = Graph(
 def f2(a,b):
     return b['val']-a['val']
 
+def f3(a,b):
+    return b['count']-a['count']
+
 def hello(request):
     context          = {}
     context['hello'] = 'Hello World!'
@@ -31,6 +34,63 @@ def hello(request):
 
 def near(request):
     return render(request,'near.html')
+def near_test(request):
+    return render(request, 'near0.html')
+def find_near_before(request):
+    a = request.GET['pname']
+
+    #maxn = request.GET['maxnear']
+
+    data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) return r.value, "
+                           "n.name,end.name,n.tid order by r.value desc" , str=a)
+
+    for i in range(0,len(data)):
+        for j in range(i+1,len(data)):
+            if (data[i]['n.name'] == data[j]['end.name'] and data[i]['end.name'] == data[j]['n.name']) or \
+                    (data[i]['n.name'] == data[j]['n.name'] and data[i]['end.name'] == data[j]['end.name']):
+                data[i]['r.value'] += data[j]['r.value']
+                data.remove(data[j])
+                break
+
+    #mydata = {}
+    #for i in range(0,len(data)):
+    #    if mydata.has_key(data[i]['n.tid']):
+     #       mydata[data[i]['n.tid']]['data'].append({"name":data[i]['end.name'],"val":data[i]['r.value']})
+     #   else:
+      #      mydata[data[i]['n.tid']] = {}
+       #     mydata[data[i]['n.tid']]['data']  = []
+
+    #for item in mydata:
+    #    mydata[item]['count'] = len(mydata[item]['data'])
+    #    mydata[item]['data'].sort(cmp = f2)
+    mydata  = []
+    help = {}
+    cnt = 0
+    for i in range(0,len(data)):
+        if help.has_key(data[i]['n.tid']):
+            mydata[help[data[i]['n.tid']]]['data'].append({'name':data[i]['end.name'],'val':data[i]['r.value']})
+        else:
+            mydata.append({'tid':data[i]['n.tid'],'data':[]})
+            help[data[i]['n.tid']] = cnt
+            cnt += 1
+    for i in range(0,len(mydata)):
+        mydata[i]['count'] = len(mydata[i]['data'])
+    for i in range(0,len(mydata)):
+        mydata[i]['data'].sort(cmp = f2)
+
+    mydata.sort(cmp = f3)
+
+
+
+
+
+    response = HttpResponse(json.dumps(mydata), content_type="application/json")
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+    return response
+
 
 def find_near(request):
     a = request.GET['pname']
@@ -39,7 +99,7 @@ def find_near(request):
 
 
     data = test_graph.data("Match (n:Person{name: {str}})-[r:CALL]-(end:Person) return r.value, "
-                           "n.name,end.name,n.tid order by r.value desc limit " +maxn ,str=a)
+                           "n.name,end.name order by r.value desc limit " +maxn ,str=a)
     #
     '''
     for dataitem in data:
@@ -49,7 +109,6 @@ def find_near(request):
                 dataitem['r.value'] += dataitem2['r.value']
                 data.remove(dataitem2)
                 break
-
     '''
     for i in range(0,len(data)):
         for j in range(i+1,len(data)):
@@ -87,7 +146,6 @@ def find_near(request):
                 data.append({"r.value":find_r[0]['r.value'],"n.name":iname,"end.name":jname})
     '''
     '''
-
     for i in range(0, len(data)):
         hisdata = test_graph.data(
             "Match (n:Person{name: {str}})-[r:CALL]-(end:Person) where r.value > 10 return r.value, "

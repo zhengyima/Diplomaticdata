@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>人际关系查询</title>
-
-  <style type="text/css">
-    html, body {
-      font: 10pt arial;
-    }
-    #mynetwork {
-      width: 600px;
-      height: 600px;
-      border: 1px solid lightgray;
-    }
-  </style>
-  {% load staticfiles %}
-    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'dist/vis.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/bootstrap-slider.js' %}"></script>
-    <link href="{% static 'dist/vis-network.min.css' %}" rel="stylesheet" type="text/css" />
-    <link  href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}" rel="stylesheet">
-    <link  href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.css' %}" rel="stylesheet">
-    <link  href="{% static 'css/slider.css' %}" rel="stylesheet">
+    <title>人际关系</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+        html, body {
+          font: 10pt arial;
+        }
+        #mynetwork {
+          width: 600px;
+          height: 600px;
+          border: 1px solid lightgray;
+        }
+        #mytable td{
+            padding:10px 18px
+        }
+        #mytable tbody tr .tname:hover  {
+        background-color: #0180FE;
+        color: #fff;
+        cursor:pointer;
+        }
+        .dataTable tr:hover td {background:none;}
+        em{
+            color:red;
+        }
+    </style>
+    <script type="text/javascript" src="static/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="static/dist/vis.js"></script>
+    <script type="text/javascript" src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap-slider.js"></script>
+    <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="static/js/typeahead/bloodhound.min.js"></script>
+    <script type="text/javascript" src="static/js/typeahead/typeahead.bundle.min.js"></script>
+    <script type="text/javascript" src="static/js/typeahead/typeahead.jquery.min.js"></script>
+    <link  href="static/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <link  href="static/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+    <link  href="static/bootstrap-3.3.7-dist/css/bootstrap-theme.css" rel="stylesheet">
+    <link  href="static/css/slider.css" rel="stylesheet">
+    <link  href="static/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 
 <body onload="draw()">
@@ -29,181 +46,459 @@
 		<div class="span6">
 			<ul class="nav nav-tabs" style="margin-left:1%;">
 				<li class="active">
-					<a href="#">人际关系查询</a> </li>
-				<li><a href="/path">六度查询</a></li>
+					<a href="near.html">人际关系查询</a> </li>
+                <li><a href="path.html?id=扎克伯格&文继荣">六度查询</a></li>
 			</ul>
 		</div>
 	</div>
-
     <hr>
-    <!--label for="pname" style="margin-left:1%;">人际关系查询</label-->
-     <div id="main-container" class="container" style="margin-left: 0;padding-left:0px;">
-        <div class="col-md-8 col-sm-12 col-xs-12">
-            <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <form action="/find_near" method="get">
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-3">
-                                    <input type="text" class="form-control" name="htitle" id="pname" name="p" placeholder="姓名">
-                                    <div class="errormessage"></div>
+     <div id="main-container" class="container" style="margin-left: 0;padding-left:0px;width:100%;">
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <form action="/find_near_before" method="get">
+                                <div class="row">
+                                    <div class="col-lg-3 col-sm-3">
+                                        <input type="text" class="form-control typeahead" name="pname" id="pname" name="p" placeholder="姓名" autocomplete="off" data-provide="typeahead">
+                                        <div class="errormessage"></div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-3">
+                                        <label for="ex1">最大邻居个数：</label>
+                                        <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-3">
+                                        <label for="ex1">是否显示邻居间关系：</label></br>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
+                                            <input type="radio" name="optionsRadio" id="optionsRadios2" value="2">否
+                                    </div>
+                                    <div class="col-lg-2 col-sm-3">
+                                        <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="查询" id='btn-commit' />
+                                    </div>
                                 </div>
-                                <div class="col-lg-3 col-sm-3">
-                                     <label for="ex1">最大邻居个数：</label>
-                                     <input id="ex1" data-slider-id='ex1Slider' name="maxnear" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>
-                                </div>
-                                <div class="col-lg-3 col-sm-3">
-                                    <label for="ex1">是否显示邻居间关系：</label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
-
-                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">否
-                                </div>
-                                <div class="col-lg-2 col-sm-3">
-                                    <input type="button" class="btn btn-default" style="margin-left:5px" name="Submit" value="查询" id='btn-commit' />
+                            </form>
+                        </div>
+                        <div class="panel-body">
+                            <div id="mynetwork" class="center-block" style="width:100%"></div>
+                            <div class="popover right" role="tooltip" style="max-width:50%" id="mypopever">
+                                <div class="arrow" style="top: 30px"></div>
+                                <div class="popover-inner">
+                                    <div class="popover-title">My Title</div>
+                                    <div id="systemInfo" class="popover-content"></div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-
-                        <div class="col-md-8 col-sm-12 col-xs-12">
-
-                            <div id="mynetwork" class=""></div>
                         </div>
-                        </div>
-                    </div>
+                </div>
             </div>
-        </div>
-         <div class="col-md-4 col-sm-12 col-xs-12" >
+            <div class="col-md-4 col-sm-12 col-xs-12" >
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <a class="btn btn-success"></a>
                     </div>
                     <div class="panel-body" style="" id="resultbody">
                         <div id="result">
-                            <h3>搜索结果</h3>
+                            <h3><span id="resulttitle">的人际关系</span></h3>
                         </div>
                     </div>
                 </div>
-        <!--p>result: <span id='result1'></span></p-->
+            </div>
+            <div class="modal fade" id="modal-version">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="btn-closemodal">&times;</button>
+                            <h4 class="modal-title">系统更新提示</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>更新日期：2017年11月30日</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
      </div>
-
     <input type="hidden" id="hid" value="14"></input>
+    <script type="text/javascript">
+        var nodeset ;
+        var nodes = [];
+        var edges = [];
+        var network = null;
+        var maxn = 14;
 
-<script type="text/javascript">
-
-    var nodes = [];
-    var edges = [];
-    var network = null;
-    var maxn = 14;
-    $(document).ready(function(){
-        slide = $('#ex1').slider({
-	        formatter: function(value) {
-	            maxn = value;
-	            console.log(value)
-		    return 'Current value: ' + value;
-	        }
+        $(window).resize(function() {
+            network.fit();
         });
-        $("#ex1").on("slide", function(slideEvt) {
-	        $("#hid").val(slideEvt.value);
-        });
-        $("#btn-commit").click(function(){
-            nodes = [];
-            edges = [];
-            network = [];
-            var name = $("#pname").val();
-            var maxnear = $("#ex1").val();
-            snode = {id:name,label:name,color:{background:"#ff9966"}};
-            nodes.push(snode);
-            maxn = $("#hid").val();
-            var mr = 1;
-            if($("#optionsRadios1").is(":checked")){
-                mr = 0
+        $(document).bind('keypress',function(e){
+            if(e.keyCode==13){
+                $("#btn-commit").trigger("click");
             }
+        })
+        $('body').on('click', function(event) {
+            var target = $(event.target); // One jQuery object instead of 3
 
-            console.log(maxn);
-            $.get("/find_near",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
-                //str = '';
-                str = "<h3>搜索结果</h3><table class='table table-striped' style='width:100%'><tbody>";
-                //console.log(ret);
-                if(ret.length==0){
-                    alert("没有找到这个人的信息，输一个我知道的人吧！");
+            // Compare length with an integer rather than with
+            if (!target.hasClass('popover')
+                && target.parent('.popover-content').length === 0
+                && target.parent('.myPopover').length === 0
+                && target.parent('.popover-title').length === 0
+                && target.parent('.popover').length === 0 && target.attr("id") !== "folder") {
+                console.log("a");
+                    $('#mypopever').hide();
+                }
+        });
+        $(document).ready(function(){
+            var remote_data = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('CityName'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // 在文本框输入字符时才发起请求
+                remote: '././ajax/GetCities?q=%QUERY'
+            });
+            remote_data.initialize();
+            $('#ajax-remote-example .typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'cities',
+                displayKey: 'CityName',
+                source: remote_data.ttAdapter(),
+            });
+            //模拟动态加载标题(真实情况可能会跟后台进行ajax交互)
+            slide = $('#ex1').slider({
+                formatter: function(value) {
+                    maxn = value;
+                return 'Current value: ' + value;
+                }
+            });
+            $("#ex1").on("slide", function(slideEvt) {
+                $("#hid").val(slideEvt.value);
+            });
+            $("#btn-commit").click(function(){/*
+                 $.get("http://183.174.228.21:1241/is_entity",{'name':'asdasdasd'}, function(data){
+                     console.log(data.status);
+                 });*/
+                var name = $("#pname").val();
+                 $(this).button("loading");
+                var lohtml = "<div class='progress progress-striped active' style='margin-top:40%'><div class='progress-bar progress-bar-success' role='progressbar'aria-valuenow='60' aria-valuemin='0' aria-valuemax='100'style='width: 40%;'> <span class='sr-only'>40% 完成</span> </div> <div>"
+                //lohtml = "html";
+                $("#mynetwork").html(lohtml);
+                $("#result").html("<h3><span id='resulttitle'>"+name+"的人际关系"+"</span></h3>");
+                if(name==""){
+                    alert("请输入一个人的姓名！");
                     return ;
                 }
-                for(var i in ret){
-                    if(ret[i]["end.name"] == name) continue;
-                    node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
-                    edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
-                    if(ret[i]['n.name'] == name){
-                        nodes.push(node)
-                        str += "<tr><td>"+ ret[i]['end.name']+":"+ret[i]['r.value'] + "</td></tr>"
+                len = name.split("&").length;
+                if(len>1){
+                    if(name.split("&")[0]==""&&name.split("&")[1]!=""){
+                        location.href="near.html?name="+name.split("&")[1];
+                        that.button("reset");
+                        return ;
                     }
-                    edges.push(edge)
+                    else if(name.split("&")[1]==""&&name.split("&")[0]!=""){
+                        location.href="near.html?name="+name.split("&")[0];
+                        that.button("reset");
+                        return ;
+                    }
+                    else{
+                        window.location.href="path.html?ids="+name.split("&")[0]+"&"+name.split("&")[1];
+                        that.button("reset");
+                        return ;
+                    }
+                }
+                nodes = [];
+                edges = [];
+                network = [];
+                $("#resulttitle").html("<a href='"+"http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(name)+"&t='>"+name+"</a>"+"的人际关系")
+                var maxnear = $("#ex1").val();
+                snode = {id:name,label:name,color:{background:"#ff9966"}};
+                nodes.push(snode);
+                maxn = $("#hid").val();
+                var mr = 1;
+                if($("#optionsRadios1").is(":checked")){
+                    mr = 0
+                }
+                var that = $(this)
+                $.get("http://183.174.228.21:1241/testnear",{'pname':name,'maxnear':maxn,'mr':mr}, function(ret){
+
+                    console.log(ret)
+                    str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped table-hover ' style='width:100% ' id='mytable'><thead><th>姓名</th><th>亲密度</th><th>时事探针</th></thead><tbody>";
+                    if(ret.length==0){
+                        alert("没有找到这个人的信息，输一个我知道的人吧！");
+                        that.button("reset");
+                        return ;
+                    }
+                    for(var i in ret){
+                        if(ret[i]["end.name"] == name) continue;
+                        node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
+                        edge = {id:ret[i]['n.name']+"&"+ret[i]['end.name'],from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
+                        if(ret[i]['n.name'] == name){
+                            nodes.push(node)
+                            str += "<tr class='mytr'><td class='tname'>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"<td><a target='_blank' href='"+
+                                "http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(ret[i]['end.name'])+"&t='>链接</a>"+"</td>"+"</tr>"
+                        }
+                        edges.push(edge)
+
+                    }
+                    str += "</tbody></table>"
+                    draw();
+                    that.button("reset");
+                    $("#result").html(str);
+                     $("#resulttitle").html("<a target='_blank' href='"+"http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(name)+"&t='>"+name+"</a>"+"的人际关系")
+                    var table =
+                    $('#mytable').DataTable({
+                        "paging": true,
+                        "iDisplayLength":12, //默认每页数量
+                        "bPaginate": true, //翻页功能
+                        "bLengthChange": false, //改变每页显示数据数量
+                        "bFilter": false, //过滤功能
+                        "bInfo": true, //页脚信息
+                        "bAutoWidth": true, //自动宽度
+                        "bRetrieve": true,
+                        "processing": true,
+                        //"ordering": false,
+                        "bSort": false,
+                         language: {
+                              "sProcessing": "处理中...",
+                              "sLengthMenu": "显示 _MENU_ 项结果",
+                              "sZeroRecords": "没有匹配结果",
+                              "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                              "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                              "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                              "sInfoPostFix": "",
+                              "sSearch": "搜索:",
+                              "sUrl": "",
+                              "sEmptyTable": "表中数据为空",
+                              "sLoadingRecords": "载入中...",
+                              "sInfoThousands": ",",
+                              "oPaginate": {
+                                  "sFirst": "首页",
+                                  "sPrevious": "上页",
+                                  "sNext": "下页",
+                                  "sLast": "末页"
+                              },
+                              "oAria": {
+                                  "sSortAscending": ": 以升序排列此列",
+                                  "sSortDescending": ": 以降序排列此列"
+                              }
+                          },
+                        //"serverSide" : true,//服务器端进行分页处理的意思
+                        //"bPaginate": true,
+                        //"bProcessing": true
+                        columns : [{data : "id"},{data:"value"},{data:"link"}],
+                    });
+                    $("#mytable tbody").on("mouseover","tr",function()
+                    {//给tr或者td添加click事件
+                        var data=table.row(this).data();//获取值的对象数据
+                        //console.log(data);//某一行中要是用的表头值
+                        //draw();
+                        //console.log("draw");
+
+                        //console.log(nodes);
+                        var nodeID = data['id'];
+                        var clickNode = nodeset.get(nodeID);
+                        //console.log(clickNode);
+                        clickNode.color = {
+                            border: '#2cad0c',
+                            background: '#7bd655',
+                            highlight: {
+                                border: '#2cad0c',
+                                background: '#7bd655'
+                            }
+                        }
+                        nodeset.update(clickNode);
+                    });
+                    $("#mytable tbody").on("mouseout","tr",function()
+                    {//给tr或者td添加click事件
+                       // console.log("mouseout!");
+                        var data=table.row(this).data();//获取值的对象数据
+                        var nodeID = data['id'];
+                        var clickNode = nodeset.get(nodeID);
+                        clickNode.color = {
+                            border: '#2B7CE9',
+                            background: '#D2E5FF',
+                            highlight: {
+                                border: '#2cad0c',
+                                background: '#7bd655'
+                            }
+                        }
+                        nodeset.update(clickNode);
+
+                    });
+                    $("#mytable tbody").on("click","tr .tname",function()
+                    {//给tr或者td添加click事件
+                        //console.log("click!");
+                        var data=table.row(this).data();//获取值的对象数据
+                        var nodeID = data['id'];
+                        $("#pname").val(nodeID);
+                        $("#btn-commit").trigger("click");
+
+                    });
+                })
+            });
+
+            if(window.location.href.split("=").length>1){
+                id = window.location.href.split("=")[1];
+                id = decodeURI(id);
+                $("#pname").val(id);
+                $('#btn-commit').trigger("click");
+            }
+            else{
+                $("#pname").val("窦志成");
+                $('#btn-commit').trigger("click");
+            }
+        });
+        function draw()
+        {
+            console.log("draw")
+            var container = document.getElementById('mynetwork');
+            nodeset = new vis.DataSet(nodes)
+            var data = {
+                nodes: nodeset,
+                edges: edges
+            };
+            var options = {
+                nodes: {
+                    shape: 'dot',
+                    scaling:{
+                        label: {
+                        min:8,
+                        max:20
+                        }
+                    },
+                    color:{
+                        highlight: {//节点选中时状态颜色
+                            background: '#ec7171',
+                            border: '#f90909'
+                        },
+                    },
+                },
+                layout:{
+                    randomSeed:1,//配置每次生成的节点位置都一样，参数为数字1、2等
+                },
+
+                physics: {
+                    barnesHut: {
+                    damping: 0.5,
+                    },
+                    stabilization:{
+                    },
+                    minVelocity: 0.75
+                }
+            };
+            network = new vis.Network(container, data, options);
+
+
+
+            network.on("doubleClick", function(params) {//双击事件
+                if (params.nodes.length != 0) {//确定为节点双击事件
+                    var click_node_id = params.nodes[0];
+
+                    maxn = $("#hid").val();
+                    var mr = 0;
+                    //remove_all_sub_nodes(click_node_id);
+                    //console.log(click_node_id);
+                    //$("#pname").val(click_node_id);
+                    // $("#btn-commit").trigger("click");
+                    $.get("http://183.174.228.21:1241/find_near",{'pname':click_node_id,'maxnear':maxn,'mr':mr}, function(ret){
+                    console.log(ret);
+                    for(var i in ret){
+                        exist1 = 0
+                        for(var j in nodes){
+                            if(ret[i]['n.name'] == nodes[j]['id']){
+                                exist1 = 1;break;
+                            }
+                        }
+                        exist2 = 0;
+                        for(var j in nodes){
+                            if(ret[i]['end.name'] == nodes[j]['id']){
+                                exist2 = 1;break;
+                            }
+                        }
+                        if(!exist1){
+                            nodes.push({id:ret[i]['n.name'],label:ret[i]["n.name"]})
+                            //edges.push({from:ret[i]['n.name'],to:ret[i]['end.name'],value:ret[i]['r.value'],title:ret[i]['r.value']})
+                        }
+                        if(!exist2){
+                            nodes.push({id:ret[i]['end.name'],label:ret[i]["end.name"]})
+                        }
+
+                        id1 = ret[i]['n.name']+"&"+ret[i]['end.name'];
+                        id2 = ret[i]['end.name']+"&"+ret[i]['n.name']
+                        exist3 = 0;
+                        for(var j in edges){
+                            if(edges[j]['id'] == id1 || edges[j]['id'] == id2){
+                                exist3 = 1;break;
+                            }
+                        }
+                        console.log(exist3)
+                        if(!exist3){
+                            edges.push({id:ret[i]['n.name']+"&"+ret[i]['end.name'],from:ret[i]['n.name'],to:ret[i]['end.name'],value:ret[i]['r.value'],title:ret[i]['r.value']})
+                        }
+                    }
+                    console.log(edges)
+                    draw();
+                    //str = "<h3><span id='resulttitle'></span></h3><table class='table table-striped table-hover ' style='width:100%' id='mytable'><thead><th>姓名</th><th>亲密度</th><th>时事探针</th></thead><tbody>";
+                    //if(ret.length==0){
+                    //    alert("没有找到这个人的信息，输一个我知道的人吧！");
+                    //    return ;
+                    //}
+                    /*for(var i in ret){
+                        if(ret[i]["end.name"] == name) continue;
+                        node = {id:ret[i]["end.name"],label:ret[i]["end.name"]};
+                        edge = {from:ret[i]['n.name'],to:ret[i]["end.name"],value:ret[i]["r.value"],title:ret[i]["r.value"]}
+                        if(ret[i]['n.name'] == name){
+                            nodes.push(node)
+                            str += "<tr class='mytr'><td>"+ ret[i]['end.name']+"</td>"+"<td>"+ret[i]["r.value"]+"</td>"+"<td><a href='"+
+                                "http://playbigdata.com/wwj/search2.aspx?q="+encodeURIComponent(ret[i]['end.name'])+"&t='>链接</a>"+"</td>"+"</tr>"
+                        }
+                        edges.push(edge)
+
+                    }
+                    str += "</tbody></table>"*/
+                    //draw();
+                })
 
                 }
-                str += "</tbody></table>"
-                console.log(str);
-                //console.log(edges);
-                draw();
-                $("#result").html(str);
-            })
-        });
-    });
-    function draw() {
-      // create people.
-      // value corresponds with the age of the person
-      /*
-      nodes = [
-        {id: 1,  value: 2,  label: 'Algie' },
-        {id: 2,  value: 31, label: 'Alston'},
-        {id: 3,  value: 12, label: 'Barney'},
-        {id: 4,  value: 16, label: 'Coley' },
-        {id: 5,  value: 17, label: 'Grant' },
-        {id: 6,  value: 15, label: 'Langdon'},
-        {id: 7,  value: 6,  label: 'Lee'},
-        {id: 8,  value: 5,  label: 'Merlin'},
-        {id: 9,  value: 30, label: 'Mick'},
-        {id: 10, value: 18, label: 'Tod'},
-      ];*/
-      
+                else if(params.edges.length != 0){
+                    var click_edge_id = params.edges[0];
+                    console.log(click_edge_id);
+                    edge2names = click_edge_id.split("&");
+                    //window.open("http://playbigdata.com/fss3/search2.aspx?q="+encodeURIComponent(edge2names[0])+"+"+encodeURIComponent(edge2names[1])+"&t=")
 
-      // create connections between people
-      // value corresponds with the amount of contact between two people
-      /*
-      edges = [
-        {from: 2, to: 8, value: 3, title: '3 emails per week'},
-        {from: 2, to: 9, value: 5, title: '5 emails per week'},
-        {from: 2, to: 10,value: 1, title: '1 emails per week'},
-        {from: 4, to: 6, value: 8, title: '8 emails per week'},
-        {from: 5, to: 7, value: 2, title: '2 emails per week'},
-        {from: 4, to: 5, value: 1, title: '1 emails per week'},
-        {from: 9, to: 10,value: 2, title: '2 emails per week'},
-        {from: 2, to: 3, value: 6, title: '6 emails per week'},
-        {from: 3, to: 9, value: 4, title: '4 emails per week'},
-        {from: 5, to: 3, value: 1, title: '1 emails per week'},
-        {from: 2, to: 7, value: 4, title: '4 emails per week'}
-      ];
-*/
-      // Instantiate our network object.
-      var container = document.getElementById('mynetwork');
-      var data = {
-        nodes: nodes,
-        edges: edges
-      };
-      var options = {
-        nodes: {
-          shape: 'dot',
-          scaling:{
-            label: {
-              min:8,
-              max:20
-            }
-          }
+                    $.get("http://183.174.228.21:1241/getEdgeinfo",{sname:edge2names[0],tname:edge2names[1]},function(data){
+                        $('.popover-content').html("");
+                        console.log(data);
+
+                        $('.popover').show();
+                        var x = params.pointer.DOM.x;
+                        var y = params.pointer.DOM.y;
+                        $('.popover-title').html(edge2names[0]+"与"+edge2names[1]);
+
+                        if(data.length==0){
+                             $('.popover-content').html("未查询到相关信息");
+                            $('.popover').css('left', (x + 10) + 'px');
+                            $('.popover').css('top', (y - 20) + 'px');
+                            return ;
+                        }
+                        var str = ""
+                        for(var iter=0;iter<data.length;iter++){
+                            str+= "新闻"+(iter+1)+"：</br>";
+                            str+= "  时间："+data[iter]['TimeStr']+"</br>";
+                            str+="内容："+data[iter]['Text']+"</br>"+"-------------------</br>"
+                        }
+
+                        $('.popover-content').html(str);
+                        $('.popover').css('left', (x + 10) + 'px');
+                        $('.popover').css('top', (y - 20) + 'px');
+                    })
+                }
+             });
+
         }
-      };
-      network = new vis.Network(container, data, options);
-    }
-  </script>
+
+    </script>
 </body>
 </html>
