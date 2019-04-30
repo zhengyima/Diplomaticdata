@@ -1,6 +1,8 @@
-1¡¢ÓÃwriteNodes_Article2CSV.py ¶à¸öÏß³ÌÅÜ³ö¶à¸öcsv 
-	Ê¹ÓÃmerge_csv.pyÖ®ºóºÏ³ö´óµÄbna.csv ÔÙÊ¹ÓÃquchong.pyÈ¥ÖØ µÃµ½bna.csv
-2¡¢ÓÃwriteNodes2CSV.py ºÍÒÔÉÏÀàËÆ·½·¨ÅÜ³öËùÓĞ½áµã
-3¡¢ÓÃwriteAllRel2CSVnew.py½áºÏ1ÖĞµÄbna.csv ·Ö¶à¸öÏß³ÌÅÜ³öb_rs ºÏÆğÀ´¼´ÊÇËùÓĞ¹ØÏµ
+# Diplomaticdata
 
-import
+demo:http://183.174.228.21:1241/
+
+1ã€ç”¨writeNodes_Article2CSV.py å¤šä¸ªçº¿ç¨‹è·‘å‡ºå¤šä¸ªcsv 
+	ä½¿ç”¨merge_csv.pyä¹‹ååˆå‡ºå¤§çš„bna.csv å†ä½¿ç”¨quchong.pyå»é‡ å¾—åˆ°bna.csv
+2ã€ç”¨writeNodes2CSV.py å’Œä»¥ä¸Šç±»ä¼¼æ–¹æ³•è·‘å‡ºæ‰€æœ‰ç»“ç‚¹
+3ã€ç”¨writeAllRel2CSVnew.pyç»“åˆ1ä¸­çš„bna.csv åˆ†å¤šä¸ªçº¿ç¨‹è·‘å‡ºb_rs åˆèµ·æ¥å³æ˜¯æ‰€æœ‰å…³ç³»
